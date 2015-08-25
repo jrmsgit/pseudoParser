@@ -1,11 +1,16 @@
 tokens = (
     'NAME',
     'NUMBER',
+    'COMMENT1',
+    'COMMENT2',
 )
 
 # Tokens
 literals = ['=', '+', '-', '*', '/', '(', ')', ';']
-t_NAME    = r'[a-zA-Z_][a-zA-Z0-9_]*'
+
+t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
+t_ignore_COMMENT1 = r'\/\* .* \*\/'
+t_ignore_COMMENT2 = r'\#.*'
 
 def t_NUMBER(t):
     r'\d+'
@@ -20,8 +25,8 @@ def t_newline(t):
     t.lexer.lineno += t.value.count("\n")
 
 def t_error(t):
-    print("Illegal character '%s'" % t.value[0])
-    t.lexer.skip(1)
+    #~ t.lexer.skip(1)
+    raise Exception("%s: invalid character '%s', at line '%d' column '%d'" % (__name__, t.value[0], t.lexer.lineno, t.lexer.lexpos))
 
 # Build the lexer
 import ply.lex as lex

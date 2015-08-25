@@ -1,5 +1,10 @@
 from .lexer import *
 
+# FIXME: Esto es bastante feo...
+from . import vartypes
+vartypes.lex = lex
+from .vartypes import *
+
 # Parsing rules
 
 precedence = (
@@ -7,13 +12,6 @@ precedence = (
     ('left','*','/'),
     ('right','UMINUS'),
 )
-
-# dictionary of names
-namesTable = dict()
-
-def p_statement_assign(p):
-    "statement : NAME '=' expression ';'"
-    namesTable[p[1]] = p[3]
 
 def p_statement_expr(p):
     "statement : expression ';'"
@@ -44,16 +42,17 @@ def p_expression_number(p):
 def p_expression_name(p):
     'expression : NAME'
     try:
-        p[0] = namesTable[p[1]]
+        p[0] = varsTable[p[1]]
     except LookupError:
         print("Undefined name '%s'" % p[1])
-        p[0] = 0
+        p[0] = None
 
 def p_error(p):
     if p is None:
         print("End of file!!")
     else:
-        print("Syntax error at '%s', line '%d'" % (p.value, lex.lexer.lineno))
+        raise RuntimeError("%s: syntax error '%s', at line '%d'" % (__name__, p.value, lex.lexer.lineno))
 
+# Build the parser
 import ply.yacc as yacc
 parser = yacc.yacc(debug=1)
