@@ -1,0 +1,15 @@
+IGNORE : ' \t\x0c'
+
+DELIM : r';'
+
+ICONST : r'\d+'
+
+VARNAME : r'[A-Za-z_][\w_]*'
+
+NEWLINE : r'\n+'
+
+declaration : declaration_specifier DELIM
+
+declaration_specifier : type_specifier VARNAME
+
+type_specifier : INT
