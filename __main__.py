@@ -1,17 +1,17 @@
 #!/usr/bin/python3
 # Initially stolen from: http://www.dabeaz.com/ply/example.html
 
+import sys
 from .parser import *
 
-import sys
 try:
     fh = open(sys.argv[1], 'r')
     for codeLine in fh.readlines():
-        parser.parse(codeLine.strip())
+        parser.parse(codeLine)
     fh.close()
 except IndexError:
     for codeLine in sys.stdin.readlines():
-        parser.parse(codeLine.strip())
+        parser.parse(codeLine)
 
 print()
 print("*******************************************************")

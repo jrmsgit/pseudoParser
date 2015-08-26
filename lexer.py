@@ -10,10 +10,9 @@ tokens = reserved + (
     'VARNAME',
     'ICONST',
     'EQUAL',
-    'NEWLINE',
 )
 
-t_ignore = ' \t\x0c'
+t_ignore = ' \t'
 
 t_DELIM = r';'
 t_ICONST = r'\d+'
@@ -29,10 +28,9 @@ def t_VARNAME(t):
     return t
 
 def t_NEWLINE(t):
-    r'\n'
+    r'\n+'
     _dbg('t_NEWLINE')
-    t.lexer.lineno += 1
-    return t
+    t.lexer.lineno += len(t.value)
 
 def t_error(t):
     _dbg('t_error')
@@ -41,7 +39,7 @@ def t_error(t):
 
 _dbg('build lexer')
 import ply.lex as lex
-lexer = lex.lex(debug=1)
+lex.lex(debug=1)
 
 if __name__ == '__main__':
     lex.runmain()
