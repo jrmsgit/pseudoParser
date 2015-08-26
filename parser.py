@@ -1,28 +1,31 @@
 from .vartypes import *
-from .lexer import tokens
+from .lexer import tokens, lexer
+
+varsTable = dict()
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
-#~ precedence = (
-    #~ ('left','+','-'),
-    #~ ('left','*','/'),
-    #~ ('right','UMINUS'),
-#~ )
+def p_program(p):
+    """program : program statement
+               | statement"""
+    _dbg('p_program:', p.lexer.lineno)
 
-varsTable = dict()
+def p_statement_declare(p):
+    "statement : type_specifier VARNAME DELIM"
+    _dbg('p_statement_declare:', p.lexer.lineno)
 
-def p_declaration(p):
-    "declaration : declaration_specifier DELIM"
-    _dbg('p_declaration')
-
-def p_declaration_specifier(p):
-    "declaration_specifier : type_specifier VARNAME"
-    _dbg('p_declaration_specifier')
+def p_statement_assign(p):
+    "statement : VARNAME EQUAL constant DELIM"
+    _dbg('p_statement_assign')
 
 def p_type_specifier(p):
-    """type_specifier : INT"""
+    "type_specifier : INT"
     _dbg('p_type_specifier')
+
+def p_constant(p):
+    "constant : ICONST"
+    _dbg('p_constant')
 
 def p_error(p):
     _dbg('p_error')

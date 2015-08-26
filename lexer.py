@@ -9,12 +9,15 @@ tokens = reserved + (
     'DELIM',
     'VARNAME',
     'ICONST',
+    'EQUAL',
+    'NEWLINE',
 )
 
 t_ignore = ' \t\x0c'
 
 t_DELIM = r';'
 t_ICONST = r'\d+'
+t_EQUAL = r'='
 
 reserved_map = dict()
 for r in reserved:
@@ -26,9 +29,10 @@ def t_VARNAME(t):
     return t
 
 def t_NEWLINE(t):
-    r'\n+'
+    r'\n'
     _dbg('t_NEWLINE')
-    t.lexer.lineno += t.value.count("\n")
+    t.lexer.lineno += 1
+    return t
 
 def t_error(t):
     _dbg('t_error')
