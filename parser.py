@@ -24,7 +24,7 @@ def p_statement_2(p):
 # -- declare_statement
 
 def p_declare_statement(p):
-    "declare_statement : type_specifier VARNAME"
+    "declare_statement : type_specifier ID"
     vartypes.declare(p)
 
 # -- init_statement
@@ -34,13 +34,13 @@ def p_init_statement_1(p):
     pass
 
 def p_init_statement_2(p):
-    "init_statement : INICIAR LPAREN VARNAME RPAREN"
+    "init_statement : INICIAR LPAREN ID RPAREN"
     vartypes.iniciar(p)
 
 # -- assign_statement
 
 def p_assign_statement_1(p):
-    "assign_statement : VARNAME EQUAL constant"
+    "assign_statement : ID EQUAL constant"
     vartypes.assign(p)
 
 # -- type_specifier

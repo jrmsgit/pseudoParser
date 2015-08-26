@@ -1,7 +1,7 @@
 IGNORE : ' \t\x0c'
 DELIM : r';'
 ICONST : r'\d+'
-VARNAME : r'[A-Za-z_][\w_]*'
+ID : r'[A-Za-z_][\w_]*'
 NEWLINE : r'\n+'
 EQUAL : r'='
 LPAREN = r'\('
@@ -13,12 +13,12 @@ program : program statement
 statement : declare_statement DELIM
           | init_statement DELIM
 
-declare_statement : type_specifier VARNAME
+declare_statement : type_specifier ID
 
 init_statement : assign_statement
-               | INICIAR LPAREN VARNAME RPAREN
+               | INICIAR LPAREN ID RPAREN
 
-assign_statement : VARNAME EQUAL constant
+assign_statement : ID EQUAL constant
 
 type_specifier : INT
                | COLA

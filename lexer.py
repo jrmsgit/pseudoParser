@@ -12,7 +12,7 @@ reserved = (
 
 tokens = reserved + (
     'DELIM',
-    'VARNAME',
+    'ID',
     'ICONST',
     'EQUAL',
     'LPAREN',
@@ -33,10 +33,10 @@ for r in reserved:
 
 _dbg('reserved_map:', reserved_map)
 
-def t_VARNAME(t):
+def t_ID(t):
     r'[A-Za-z_][\w_]*'
-    _dbg('VARNAME:', t.value)
-    t.type = reserved_map.get(t.value,"VARNAME")
+    _dbg('ID:', t.value)
+    t.type = reserved_map.get(t.value,"ID")
     _dbg('VARTYPE:', t.type)
     return t
 
