@@ -16,6 +16,12 @@ class _base(object):
     def setVal(self, val):
         self._val = val
 
+
 class intVar(_base):
     def __init__(self):
         super(intVar, self).__init__('int')
+
+
+class colaVar(_base):
+    def __init__(self):
+        super(colaVar, self).__init__('cola')

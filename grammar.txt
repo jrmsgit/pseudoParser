@@ -1,21 +1,24 @@
 IGNORE : ' \t\x0c'
-
 DELIM : r';'
-
 ICONST : r'\d+'
-
 VARNAME : r'[A-Za-z_][\w_]*'
-
 NEWLINE : r'\n+'
-
 EQUAL : r'='
+LPAREN = r'\('
+RPAREN = r'\)'
 
 program : program statement
         | statement
 
-statement : type_specifier VARNAME DELIM
-          | VARNAME EQUAL constant DELIM
+statement : declare_statement DELIM
+          | init_statement DELIM
+
+declare_statement : type_specifier VARNAME
+
+init_statement : VARNAME EQUAL constant
+               | INICIAR LPAREN type_specifier RPAREN
 
 type_specifier : INT
+               | COLA
 
 constant : ICONST
