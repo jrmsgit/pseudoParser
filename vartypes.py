@@ -16,7 +16,12 @@ class _base(object):
     def __str__(self):
         return str(self._val)
 
+    def assignValidate(self, val):
+        # should be re-implemented
+        _dbg(self._typ, 'assignValidate NOT IMPLEMENTED')
+
     def setVal(self, val):
+        self.assignValidate(val)
         self._val = val
 
 
@@ -63,7 +68,7 @@ def assign(p):
 def iniciar(p):
     global _varsTable
     _dbg('iniciar')
-    pass
+    # FIXME!!!
 
 
 def varsTableRepr():

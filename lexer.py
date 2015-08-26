@@ -37,7 +37,7 @@ def t_ID(t):
     r'[A-Za-z_][\w_]*'
     _dbg('ID:', t.value)
     t.type = reserved_map.get(t.value,"ID")
-    _dbg('VARTYPE:', t.type)
+    _dbg('IDTYPE:', t.type)
     return t
 
 def t_NEWLINE(t):
