@@ -10,6 +10,7 @@ tokens = reserved + (
     'VARNAME',
     'ICONST',
     'EQUAL',
+    'NEWLINE',
 )
 
 t_ignore = ' \t'
@@ -39,7 +40,7 @@ def t_error(t):
 
 _dbg('build lexer')
 import ply.lex as lex
-lex.lex(debug=1)
+lexer = lex.lex(debug=1)
 
 if __name__ == '__main__':
     lex.runmain()
