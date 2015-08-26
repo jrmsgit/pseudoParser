@@ -25,7 +25,6 @@ def p_statement_2(p):
 
 def p_declare_statement(p):
     "declare_statement : type_specifier VARNAME"
-    _dbg('p_declare_statement:', p)
     vartypes.declare(p)
 
 # -- init_statement
@@ -35,9 +34,8 @@ def p_init_statement_1(p):
     pass
 
 def p_init_statement_2(p):
-    "init_statement : INICIAR LPAREN type_specifier RPAREN"
-    # FIXME
-    p[0] = p[3]
+    "init_statement : INICIAR LPAREN VARNAME RPAREN"
+    vartypes.iniciar(p)
 
 # -- assign_statement
 

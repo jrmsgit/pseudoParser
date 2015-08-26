@@ -1,3 +1,6 @@
+def _dbg(*args):
+    print('D:%s' % __name__, '-', *args)
+
 _varsTable = dict()
 
 class _base(object):
@@ -55,6 +58,12 @@ def assign(p):
     else:
         _dbg('undefined variable', p, dir(p))
         raise RuntimeError("%s: undefined variable '%s', line '%d', col '%d'" % (__name__, p[1], p.lexer.lineno, p.lexpos(1)))
+
+
+def iniciar(p):
+    global _varsTable
+    _dbg('iniciar')
+    pass
 
 
 def varsTableRepr():

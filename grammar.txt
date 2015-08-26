@@ -16,7 +16,7 @@ statement : declare_statement DELIM
 declare_statement : type_specifier VARNAME
 
 init_statement : assign_statement
-               | INICIAR LPAREN type_specifier RPAREN
+               | INICIAR LPAREN VARNAME RPAREN
 
 assign_statement : VARNAME EQUAL constant
 
