@@ -1,3 +1,5 @@
+from .errors import *
+
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
@@ -24,12 +26,14 @@ class _base(object):
         _dbg(self._typ, 'assignValidate NOT RE-IMPLEMENTED')
 
     def setVal(self, val):
+        _dbg(self._typ, 'setVal', self._ID)
         self.assignValidate(val)
         self._val = val
+        _dbg(self._typ, 'val set:', val)
 
     def initialize(self):
         if self._val is not None:
-            raise RuntimeError("%s: variable already initialized '%s'" % (__name__, self._ID))
+            raise ppVarInitDone(__name__, self._ID)
         self.doInit()
 
     def doInit(self):
@@ -65,7 +69,7 @@ _classmap = {
 def _getVarClass(typ):
     klass = _classmap.get(typ, None)
     if klass is None:
-        raise RuntimeError("%s: unknown type '%s', line '%d', col '%d'" % (__name__, p[1], p.lexer.lineno, p.lexpos(1)))
+        raise ppVarInvalidType(__name__, p[1])
     return klass
 
 
@@ -76,26 +80,28 @@ def _varDeclared(ID):
 def declare(p):
     "type_specifier ID"
     global _varsTable
+    _dbg('declare:', p[1], p[2])
     klass = _getVarClass(p[1])
     if _varDeclared(p[2]):
-        raise RuntimeError("%s: variable already declared '%s', line '%d', col '%d'" % (__name__, p[1], p.lexer.lineno, p.lexpos(1)))
+        raise ppVarDeclareDone(__name__, p[2])
     _varsTable[p[2]] = klass(p[2])
 
 
 def assign(p):
-    "ID EQUAL constant"
+    "ID EQUAL expression"
     global _varsTable
+    _dbg('assign:', p[0], p[1], p[2], p[3])
     if _varDeclared(p[1]):
         _varsTable[p[1]].setVal(p[3])
     else:
-        raise RuntimeError("%s: undefined variable '%s', line '%d', col '%d'" % (__name__, p[1], p.lexer.lineno, p.lexpos(1)))
+        raise ppVarNotDeclared(__name__, p[1])
 
 
 def iniciar(p):
     "INICIAR LPAREN ID RPAREN"
     global _varsTable
     if not _varDeclared(p[3]):
-        raise RuntimeError("%s: undefined variable '%s', line '%d', col '%d'" % (__name__, p[3], p.lexer.lineno, p.lexpos(1)))
+        raise ppVarNotDeclared(__name__, p[3])
     v = _varsTable.get(p[3])
     v.initialize()
 

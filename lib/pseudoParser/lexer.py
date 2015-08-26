@@ -1,3 +1,5 @@
+from . import errors
+
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
@@ -20,8 +22,6 @@ tokens = reserved + (
 )
 
 t_ignore = ' \t\x0c'
-
-t_DELIM = r';'
 t_ICONST = r'\d+'
 t_EQUAL = r'='
 t_LPAREN = r'\('
@@ -40,19 +40,26 @@ def t_ID(t):
     _dbg('IDTYPE:', t.type)
     return t
 
+def t_DELIM(t):
+    r';'
+    _dbg('DELIM: line ', t.lexer.lineno)
+    return t
+
 def t_NEWLINE(t):
     r'\n+'
+    _dbg('NEWLINE: line ', t.lexer.lineno)
     t.lexer.lineno += len(t.value)
-    _dbg('t_NEWLINE:', t.lexer.lineno)
 
 def t_error(t):
     _dbg('t_error')
-    print("%s: invalid character '%s', at line '%d' column '%d'" % (__name__, t.value[0], t.lexer.lineno, t.lexer.lexpos))
-    t.lexer.skip(1)
+    raise errors.ppInvalidToken(__name__, t.value[0])
 
 _dbg('build lexer')
 import ply.lex as lex
 lexer = lex.lex(debug=1)
+
+# attach lexer to errors module
+errors.lexer = lexer
 
 if __name__ == '__main__':
     lex.runmain()

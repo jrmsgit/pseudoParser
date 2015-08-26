@@ -7,20 +7,22 @@ EQUAL : r'='
 LPAREN = r'\('
 RPAREN = r'\)'
 
-program : program statement
-        | statement
+program : program statement DELIM
+        | statement DELIM
 
-statement : declare_statement DELIM
-          | init_statement DELIM
+statement : declare_statement
+          | assign_statement
+          | init_statement
 
 declare_statement : type_specifier ID
 
-init_statement : assign_statement
-               | INICIAR LPAREN ID RPAREN
+init_statement : INICIAR LPAREN ID RPAREN
 
-assign_statement : ID EQUAL constant
+assign_statement : ID EQUAL expression
 
 type_specifier : INT
                | COLA
+
+expression : constant
 
 constant : ICONST
