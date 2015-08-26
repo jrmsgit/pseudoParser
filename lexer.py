@@ -13,7 +13,7 @@ tokens = reserved + (
     'NEWLINE',
 )
 
-t_ignore = ' \t'
+t_ignore = ' \t\x0c'
 
 t_DELIM = r';'
 t_ICONST = r'\d+'

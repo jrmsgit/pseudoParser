@@ -8,8 +8,14 @@ VARNAME : r'[A-Za-z_][\w_]*'
 
 NEWLINE : r'\n+'
 
-declaration : declaration_specifier DELIM
+EQUAL : r'='
 
-declaration_specifier : type_specifier VARNAME
+program : program statement
+        | statement
+
+statement : type_specifier VARNAME DELIM
+          | VARNAME EQUAL constant DELIM
 
 type_specifier : INT
+
+constant : ICONST
