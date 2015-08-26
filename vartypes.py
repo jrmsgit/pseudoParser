@@ -7,11 +7,11 @@ class _base(object):
     def __init__(self, typ):
         self._typ = typ
 
-    def __str__(self):
+    def __repr__(self):
         return "<%s:%s>" % (self._typ, self._val)
 
-    def __repr__(self):
-        return self.__str__()
+    def __str__(self):
+        return str(self._val)
 
     def setVal(self, val):
         self._val = val
