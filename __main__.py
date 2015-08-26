@@ -16,7 +16,7 @@ except IndexError:
 print()
 print("*******************************************************")
 print()
-print(varsTable)
+print(vartypes.varsTableRepr())
 print()
 print("*******************************************************")
 print()
