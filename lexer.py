@@ -1,33 +1,43 @@
-tokens = (
-    'NAME',
-    'NUMBER',
-    'COMMENT1',
-    'COMMENT2',
+def _dbg(*args):
+    print('D:%s' % __name__, '-', *args)
+
+reserved = (
+    'INT',
 )
 
-# Tokens
-literals = ['=', '+', '-', '*', '/', '(', ')', ';']
+tokens = reserved + (
+    'DELIM',
+    'VARNAME',
+    'ICONST',
+)
 
-t_NAME = r'[a-zA-Z_][a-zA-Z0-9_]*'
-t_ignore_COMMENT1 = r'\/\* .* \*\/'
-t_ignore_COMMENT2 = r'\#.*'
+t_ignore = ' \t\x0c'
 
-def t_NUMBER(t):
-    r'\d+'
-    t.value = int(t.value)
+t_DELIM = r';'
+t_ICONST = r'\d+'
+
+reserved_map = dict()
+for r in reserved:
+    reserved_map[r.lower()] = r
+
+def t_VARNAME(t):
+    r'[A-Za-z_][\w_]*'
+    t.type = reserved_map.get(t.value,"VARNAME")
     return t
 
-# Ignored characters
-t_ignore = " \t"
-
-def t_newline(t):
+def t_NEWLINE(t):
     r'\n+'
+    _dbg('t_NEWLINE')
     t.lexer.lineno += t.value.count("\n")
 
 def t_error(t):
-    #~ t.lexer.skip(1)
-    raise Exception("%s: invalid character '%s', at line '%d' column '%d'" % (__name__, t.value[0], t.lexer.lineno, t.lexer.lexpos))
+    _dbg('t_error')
+    print("%s: invalid character '%s', at line '%d' column '%d'" % (__name__, t.value[0], t.lexer.lineno, t.lexer.lexpos))
+    t.lexer.skip(1)
 
-# Build the lexer
+_dbg('build lexer')
 import ply.lex as lex
 lexer = lex.lex(debug=1)
+
+if __name__ == '__main__':
+    lex.runmain()

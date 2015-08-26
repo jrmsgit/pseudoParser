@@ -6,12 +6,17 @@ from .parser import *
 import sys
 try:
     fh = open(sys.argv[1], 'r')
-    parser.parse(fh.read().strip())
+    for codeLine in fh.readlines():
+        parser.parse(codeLine.strip())
     fh.close()
 except IndexError:
-    parser.parse(sys.stdin.read().strip())
+    for codeLine in sys.stdin.readlines():
+        parser.parse(codeLine.strip())
 
 print()
 print("*******************************************************")
 print()
 print(varsTable)
+print()
+print("*******************************************************")
+print()
