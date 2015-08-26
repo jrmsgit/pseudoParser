@@ -2,3 +2,5 @@
 *.src
 *.patch
 __pycache__
+lib/parser.out
+lib/parsetab.py
