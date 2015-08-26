@@ -39,16 +39,23 @@ def p_declare_statement(p):
 # -- init_statement
 
 def p_init_statement_1(p):
-    "init_statement : VARNAME EQUAL constant"
+    "init_statement : assign_statement"
+    pass
+
+def p_init_statement_2(p):
+    "init_statement : INICIAR LPAREN type_specifier RPAREN"
+    # FIXME
+    p[0] = p[3]
+
+# -- assign_statement
+
+def p_assign_statement_1(p):
+    "assign_statement : VARNAME EQUAL constant"
     if p[1] in varsTable.keys():
         varsTable[p[1]].setVal(p[3])
     else:
         _dbg('undefined variable', p, dir(p))
         raise RuntimeError("%s: undefined variable '%s', line '%d', col '%d'" % (__name__, p[1], p.lexer.lineno, p.lexpos(1)))
-
-def p_init_statement_2(p):
-    "init_statement : INICIAR LPAREN type_specifier RPAREN"
-    p[0] = p[3]
 
 # -- type_specifier
 
