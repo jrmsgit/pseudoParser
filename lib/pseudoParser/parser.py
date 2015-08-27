@@ -73,8 +73,13 @@ def p_command_statement(p):
 
 # -- command
 
-def p_command(p):
+def p_command_1(p):
     "command : ACOLAR"
+    _dbg("command", p[1])
+    p[0] = p[1]
+
+def p_command_2(p):
+    "command : DESACOLAR"
     _dbg("command", p[1])
     p[0] = p[1]
 
