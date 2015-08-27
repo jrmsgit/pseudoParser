@@ -21,5 +21,8 @@ class _colaVar(baseVar):
     def acolar(self, val):
         self._val.append(val)
 
+    def desacolar(self):
+        self._val.pop(0)
+
 classmap = {'cola': _colaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])

@@ -7,8 +7,10 @@ def _acolar(args):
     if v.getType() == 'cola':
         v.acolar(args[1])
 
-def _desacolar(args):
-    _dbg('cmd desacolar:', args)
+def _desacolar(dst):
+    _dbg('cmd desacolar:', dst)
+    if dst.getType() == 'cola':
+        dst.desacolar()
 
 cmdmap = {
     'acolar': _acolar,

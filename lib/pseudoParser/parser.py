@@ -86,15 +86,21 @@ def p_command_2(p):
 # -- command_args
 
 def p_command_args_1(p):
+    "command_args : ID"
+    _dbg('command_args:', p[1])
+    dst = vartypes.getVar(p[1])
+    p[0] = dst
+
+def p_command_args_2(p):
     "command_args : ID COMMA ID"
-    _dbg('command_args_1:', p[1], p[3])
+    _dbg('command_args:', p[1], p[3])
     dst = vartypes.getVar(p[1])
     src = vartypes.getVar(p[3])
     p[0] = (dst, src)
 
-def p_command_args_2(p):
+def p_command_args_3(p):
     "command_args : ID COMMA constant"
-    _dbg('command_args_2:', p[1], p[3])
+    _dbg('command_args:', p[1], p[3])
     dst = vartypes.getVar(p[1])
     p[0] = (dst, p[3])
 
