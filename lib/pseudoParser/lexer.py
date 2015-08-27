@@ -17,6 +17,8 @@ tokens = reserved + (
     'LPAREN',
     'RPAREN',
     'COMMA',
+    'COMMENT',
+    'CPPCOMMENT',
 )
 
 t_ignore = ' \t\x0c'
@@ -53,6 +55,16 @@ def t_ICONST(t):
     _dbg('ICONST:', t.value)
     t.value = int(t.value)
     return t
+
+def t_COMMENT(t):
+    r'/\*(.|\n)*?\*/'
+    _dbg('COMMENT: line ', t.lexer.lineno)
+    t.lexer.lineno += 1
+
+def t_CPPCOMMENT(t):
+    r'//.*\n'
+    _dbg('CPPCOMMENT: line ', t.lexer.lineno)
+    t.lexer.lineno += len(t.value)
 
 def t_error(t):
     _dbg('t_error')
