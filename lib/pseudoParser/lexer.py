@@ -1,4 +1,4 @@
-from . import errors
+from . import errors, commands
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
@@ -7,10 +7,9 @@ reserved = (
     # -- type_specifier
     'INT',
     'COLA',
-
     # -- init_func
     'INICIAR',
-)
+) + commands.reserved
 
 tokens = reserved + (
     'DELIM',
@@ -19,13 +18,14 @@ tokens = reserved + (
     'EQUAL',
     'LPAREN',
     'RPAREN',
+    'COMMA',
 )
 
 t_ignore = ' \t\x0c'
-t_ICONST = r'\d+'
 t_EQUAL = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+t_COMMA = r','
 
 reserved_map = dict()
 for r in reserved:
@@ -49,6 +49,12 @@ def t_NEWLINE(t):
     r'\n+'
     _dbg('NEWLINE: line ', t.lexer.lineno)
     t.lexer.lineno += len(t.value)
+
+def t_ICONST(t):
+    r'\d+'
+    _dbg('ICONST:', t.value)
+    t.value = int(t.value)
+    return t
 
 def t_error(t):
     _dbg('t_error')

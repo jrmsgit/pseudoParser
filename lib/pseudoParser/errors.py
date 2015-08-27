@@ -48,3 +48,8 @@ class ppVarInitDone(ppError):
 class ppVarInvalidType(ppError):
     def __init__(self, caller, typ):
         super(ppVarInvalidType, self).__init__(caller, "invalid vartype at '%s'" % typ)
+
+
+class ppVarInvalidAssign(ppError):
+    def __init__(self, caller, ID, typ, val):
+        super(ppVarInvalidAssign, self).__init__(caller, "invalid assign at '%s' (%s) '%s' " % (ID, typ, str(val)))

@@ -8,16 +8,17 @@ def _dbg(*args):
 # -- program
 
 def p_program(p):
-    """program : program statement DELIM
-               | statement DELIM"""
+    """program : program statement
+               | statement"""
     _dbg('program ****************')
 
 # -- statement
 
 def p_statement(p):
-    """statement : declare_statement
-                 | assign_statement
-                 | init_statement"""
+    """statement : declare_statement DELIM
+                 | assign_statement DELIM
+                 | init_statement DELIM
+                 | command_statement DELIM"""
     _dbg('statement')
 
 # -- declare_statement
@@ -53,7 +54,7 @@ def p_type_specifier(p):
 
 def p_expression(p):
     "expression : constant"
-    _dbg('expression <', ' '.join(p[1:]), '>')
+    _dbg('expression: <%s>' % str(p[1]))
     p[0] = p[1]
 
 # -- constant
@@ -62,6 +63,35 @@ def p_constant(p):
     "constant : ICONST"
     _dbg("constant <%s>" % p[1])
     p[0] = p[1]
+
+# -- command_statement
+
+def p_command_statement(p):
+    "command_statement : command LPAREN command_args RPAREN"
+    _dbg("command_statement")
+    commands.run(p[1], p[3])
+
+# -- command
+
+def p_command(p):
+    "command : ACOLAR"
+    _dbg("command", p[1])
+    p[0] = p[1]
+
+# -- command_args
+
+def p_command_args_1(p):
+    "command_args : ID COMMA ID"
+    _dbg('command_args_1:', p[1], p[3])
+    dst = vartypes.getVar(p[1])
+    src = vartypes.getVar(p[3])
+    p[0] = (dst, src)
+
+def p_command_args_2(p):
+    "command_args : ID COMMA constant"
+    _dbg('command_args_2:', p[1], p[3])
+    dst = vartypes.getVar(p[1])
+    p[0] = (dst, p[3])
 
 # -- error
 

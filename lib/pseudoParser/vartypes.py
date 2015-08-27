@@ -20,16 +20,22 @@ class _base(object):
     def __str__(self):
         return str(self._val)
 
+    def getType(self):
+        return self._typ
+
     def assignValidate(self, val):
         # should be re-implemented!
         # if not valid: raise an exception
         _dbg(self._typ, 'assignValidate NOT RE-IMPLEMENTED')
+        return val
 
     def setVal(self, val):
-        _dbg(self._typ, 'setVal', self._ID)
-        self.assignValidate(val)
-        self._val = val
-        _dbg(self._typ, 'val set:', val)
+        _dbg(self._typ, 'setVal', self._ID, str(val))
+        try:
+            self._val = self.assignValidate(val)
+        except Exception as e:
+            _dbg(e)
+            raise ppVarInvalidAssign(__name__, self._ID, self._typ, val)
 
     def initialize(self):
         if self._val is not None:
@@ -49,6 +55,10 @@ class _intVar(_base):
     def doInit(self):
         pass
 
+    def assignValidate(self, val):
+        _dbg(self._typ, 'assing validate', self._ID)
+        return int(val)
+
 
 class _colaVar(_base):
 
@@ -58,6 +68,15 @@ class _colaVar(_base):
     def doInit(self):
         _dbg('cola initialize')
         self.setVal(list())
+
+    def assignValidate(self, val):
+        if type(val) != type(list()):
+            raise TypeError(str(type(val)))
+        else:
+            return val
+
+    def acolar(self, val):
+        self._val.append(val)
 
 
 _classmap = {
@@ -109,3 +128,11 @@ def iniciar(p):
 def varsTableRepr():
     global _varsTable
     return repr(_varsTable)
+
+
+def getVar(ID):
+    global _varsTable
+    v = _varsTable.get(ID, None)
+    if v is None:
+        raise ppVarNotDeclared(__name__, ID)
+    return v
