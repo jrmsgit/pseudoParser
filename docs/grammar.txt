@@ -39,5 +39,9 @@ command : ACOLAR
         | TOPE
         | INGRESAR
 
-command_args : ID COMMA ID
-             | ID COMMA constant
+command_args : command_arg_var
+             | command_arg_constant
+
+command_arg_var : ID COMMA ID
+
+command_arg_constant : ID COMMA constant
