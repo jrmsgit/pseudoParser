@@ -1,12 +1,10 @@
 from . import errors, commands
+from .vartypes import numbers, colas
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
-reserved = (
-    # -- type_specifier
-    'INT',
-    'COLA',
+reserved = numbers.reserved + colas.reserved + (
     # -- init_func
     'INICIAR',
 ) + commands.reserved
