@@ -69,7 +69,7 @@ def p_constant(p):
 def p_command_statement(p):
     "command_statement : command LPAREN command_args RPAREN"
     _dbg("command_statement")
-    commands.run(p[1], p[3])
+    p[0] = commands.run(p[1], p[3])
 
 # -- command
 
@@ -80,6 +80,11 @@ def p_command_1(p):
 
 def p_command_2(p):
     "command : DESACOLAR"
+    _dbg("command", p[1])
+    p[0] = p[1]
+
+def p_command_3(p):
+    "command : PRIMERO"
     _dbg("command", p[1])
     p[0] = p[1]
 

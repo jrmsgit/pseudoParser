@@ -24,5 +24,8 @@ class _colaVar(baseVar):
     def desacolar(self):
         self._val.pop(0)
 
+    def primero(self):
+        return self._val[0]
+
 classmap = {'cola': _colaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])

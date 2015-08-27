@@ -12,7 +12,13 @@ def _desacolar(dst):
     if dst.getType() == 'cola':
         dst.desacolar()
 
+def _primero(dst):
+    _dbg('cmd primero:', dst)
+    if dst.getType() == 'cola':
+        return dst.primero()
+
 cmdmap = {
     'acolar': _acolar,
     'desacolar': _desacolar,
+    'primero': _primero,
 }
