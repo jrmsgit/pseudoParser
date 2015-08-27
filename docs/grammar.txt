@@ -6,6 +6,7 @@ NEWLINE : r'\n+'
 EQUAL : r'='
 LPAREN = r'\('
 RPAREN = r'\)'
+COMMA = r','
 
 program : program statement DELIM
         | statement DELIM
@@ -13,6 +14,7 @@ program : program statement DELIM
 statement : declare_statement
           | assign_statement
           | init_statement
+          | command_statement
 
 declare_statement : type_specifier ID
 
@@ -26,3 +28,16 @@ type_specifier : INT
 expression : constant
 
 constant : ICONST
+
+command_statement : command LPAREN command_args RPAREN
+
+command : ACOLAR
+        | DESACOLAR
+        | PRIMERO
+        | APILAR
+        | DESAPILAR
+        | TOPE
+        | INGRESAR
+
+command_args : ID COMMA ID
+             | ID COMMA constant
