@@ -3,7 +3,14 @@ from . import colas
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
-_cmdmap = colas.cmdmap
+def _print(args):
+    _dbg('cmd print:', args)
+    print(args)
+
+_cmdmap = {
+    'print': _print,
+}
+_cmdmap.update(colas.cmdmap)
 
 _rk = list()
 for k in _cmdmap.keys():

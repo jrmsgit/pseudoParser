@@ -17,8 +17,6 @@ tokens = reserved + (
     'LPAREN',
     'RPAREN',
     'COMMA',
-    'COMMENT',
-    'CPPCOMMENT',
 )
 
 t_ignore = ' \t\x0c'

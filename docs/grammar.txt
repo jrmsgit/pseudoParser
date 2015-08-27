@@ -34,7 +34,8 @@ constant : ICONST
 
 command_statement : command LPAREN command_args RPAREN
 
-command : ACOLAR
+command : PRINT
+        | ACOLAR
         | DESACOLAR
         | PRIMERO
         | APILAR
