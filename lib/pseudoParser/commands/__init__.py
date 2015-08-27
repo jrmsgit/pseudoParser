@@ -13,4 +13,4 @@ reserved = tuple(_rk)
 def run(cmd, args):
     _dbg('run', cmd, args)
     f = _cmdmap.get(cmd, None)
-    f(args)
+    return f(args)

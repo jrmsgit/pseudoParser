@@ -25,7 +25,9 @@ class _colaVar(baseVar):
         self._val.pop(0)
 
     def primero(self):
-        return self._val[0]
+        r = self._val[0]
+        _dbg('primero:', r)
+        return r
 
 classmap = {'cola': _colaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])

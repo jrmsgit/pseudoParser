@@ -1,4 +1,4 @@
-from . import vartypes
+from . import vartypes, commands
 from .lexer import *
 from .errors import *
 
@@ -20,6 +20,7 @@ def p_statement(p):
                  | init_statement DELIM
                  | command_statement DELIM"""
     _dbg('statement')
+    p[0] = p[1]
 
 # -- declare_statement
 
@@ -37,9 +38,14 @@ def p_init_statement(p):
 
 # -- assign_statement
 
-def p_assign_statement(p):
+def p_assign_statement_1(p):
     "assign_statement : ID EQUAL expression"
-    _dbg('assign_statement', len(p))
+    _dbg('assign_statement:', p[1], p[3])
+    vartypes.assign(p)
+
+def p_assign_statement_2(p):
+    "assign_statement : ID EQUAL command_statement"
+    _dbg('assign_statement:', p[1], p[3])
     vartypes.assign(p)
 
 # -- type_specifier
@@ -68,7 +74,7 @@ def p_constant(p):
 
 def p_command_statement(p):
     "command_statement : command LPAREN command_args RPAREN"
-    _dbg("command_statement")
+    _dbg("command_statement:", p[1], p[3])
     p[0] = commands.run(p[1], p[3])
 
 # -- command
