@@ -38,13 +38,8 @@ def p_init_statement(p):
 
 # -- assign_statement
 
-def p_assign_statement_1(p):
+def p_assign_statement(p):
     "assign_statement : ID EQUAL expression"
-    _dbg('assign_statement:', p[1], p[3])
-    vartypes.assign(p)
-
-def p_assign_statement_2(p):
-    "assign_statement : ID EQUAL command_statement"
     _dbg('assign_statement:', p[1], p[3])
     vartypes.assign(p)
 
@@ -59,7 +54,8 @@ def p_type_specifier(p):
 # -- expression
 
 def p_expression(p):
-    "expression : constant"
+    """expression : constant
+                  | command_statement"""
     _dbg('expression: <%s>' % str(p[1]))
     p[0] = p[1]
 

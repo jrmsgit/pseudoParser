@@ -28,6 +28,7 @@ type_specifier : INT
                | COLA
 
 expression : constant
+           | command_statement
 
 constant : ICONST
 

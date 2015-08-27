@@ -36,7 +36,7 @@ def declare(p):
 def assign(p):
     "ID EQUAL expression"
     global _varsTable
-    _dbg('assign:', p[0], p[1], p[2], p[3])
+    _dbg('assign:', p[1], p[2], p[3])
     if _varDeclared(p[1]):
         _varsTable[p[1]].setVal(p[3])
     else:
