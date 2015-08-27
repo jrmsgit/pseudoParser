@@ -8,13 +8,13 @@ LPAREN = r'\('
 RPAREN = r'\)'
 COMMA = r','
 
-program : program statement DELIM
-        | statement DELIM
+program : program statement
+        | statement
 
-statement : declare_statement
-          | assign_statement
-          | init_statement
-          | command_statement
+statement : declare_statement DELIM
+          | assign_statement DELIM
+          | init_statement DELIM
+          | command_statement DELIM
 
 declare_statement : type_specifier ID
 
@@ -39,9 +39,5 @@ command : ACOLAR
         | TOPE
         | INGRESAR
 
-command_args : command_arg_var
-             | command_arg_constant
-
-command_arg_var : ID COMMA ID
-
-command_arg_constant : ID COMMA constant
+command_args : ID COMMA ID
+             | ID COMMA constant
