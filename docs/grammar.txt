@@ -35,7 +35,7 @@ constant : ICONST
 
 command_statement : command LPAREN command_args RPAREN
 
-command : PRINT
+command : PRINTLN
         | INGRESAR *
         | ACOLAR
         | DESACOLAR

@@ -82,7 +82,7 @@ def p_command_statement(p):
 # -- command
 
 def p_command(p):
-    """command : PRINT
+    """command : PRINTLN
                | ACOLAR
                | DESACOLAR
                | PRIMERO"""

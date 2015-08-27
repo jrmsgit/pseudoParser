@@ -3,8 +3,8 @@ from . import colas
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
-def _print(args):
-    _dbg('cmd print:', args)
+def _println(args):
+    _dbg('cmd println:', args)
     if isinstance(args, tuple):
         for i in list(args): print(i, end=' ')
         print()
@@ -12,7 +12,7 @@ def _print(args):
         print(args)
 
 _cmdmap = {
-    'print': _print,
+    'println': _println,
 }
 _cmdmap.update(colas.cmdmap)
 
