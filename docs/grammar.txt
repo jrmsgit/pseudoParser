@@ -27,7 +27,8 @@ assign_statement : ID EQUAL expression
 type_specifier : INT
                | COLA
 
-expression : constant
+expression : ID
+           | constant
            | command_statement
 
 constant : ICONST
@@ -35,14 +36,16 @@ constant : ICONST
 command_statement : command LPAREN command_args RPAREN
 
 command : PRINT
+        | INGRESAR *
         | ACOLAR
         | DESACOLAR
         | PRIMERO
-        | APILAR
-        | DESAPILAR
-        | TOPE
-        | INGRESAR
+        | APILAR *
+        | DESAPILAR *
+        | TOPE *
 
-command_args : ID
-             | ID COMMA ID
+* aún sin implementar
+
+command_args : ID COMMA ID
              | ID COMMA constant
+             | expression

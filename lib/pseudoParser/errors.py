@@ -40,6 +40,11 @@ class ppVarNotDeclared(ppError):
         super(ppVarNotDeclared, self).__init__(caller, "var not declared at '%s'" % ID)
 
 
+class ppVarNotInit(ppError):
+    def __init__(self, caller, ID):
+        super(ppVarNotDeclared, self).__init__(caller, "var not initialized at '%s'" % ID)
+
+
 class ppVarInitDone(ppError):
     def __init__(self, caller, ID):
         super(ppVarInitDone, self).__init__(caller, "var already initialized at '%s'" % ID)

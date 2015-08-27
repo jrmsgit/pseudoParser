@@ -53,10 +53,16 @@ def p_type_specifier(p):
 
 # -- expression
 
-def p_expression(p):
+def p_expression_1(p):
+    "expression : ID"
+    _dbg('expression:', p[1])
+    dst = vartypes.getVar(p[1])
+    p[0] = dst
+
+def p_expression_2(p):
     """expression : constant
                   | command_statement"""
-    _dbg('expression: <%s>' % str(p[1]))
+    _dbg('expression:', p[1])
     p[0] = p[1]
 
 # -- constant
@@ -85,12 +91,6 @@ def p_command(p):
 
 # -- command_args
 
-def p_command_args_1(p):
-    "command_args : ID"
-    _dbg('command_args:', p[1])
-    dst = vartypes.getVar(p[1])
-    p[0] = dst
-
 def p_command_args_2(p):
     "command_args : ID COMMA ID"
     _dbg('command_args:', p[1], p[3])
@@ -103,6 +103,11 @@ def p_command_args_3(p):
     _dbg('command_args:', p[1], p[3])
     dst = vartypes.getVar(p[1])
     p[0] = (dst, p[3])
+
+def p_command_args_1(p):
+    "command_args : expression"
+    _dbg('command_args:', p[1])
+    p[0] = p[1]
 
 # -- error
 
