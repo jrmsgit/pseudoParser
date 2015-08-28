@@ -90,6 +90,7 @@ def p_command_statement(p):
 
 def p_command(p):
     """command : PRINTLN
+               | INGRESAR
                | ACOLAR
                | DESACOLAR
                | PRIMERO"""

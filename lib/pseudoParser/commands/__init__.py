@@ -1,3 +1,4 @@
+import sys
 from . import colas
 
 def _dbg(*args):
@@ -7,8 +8,13 @@ def _println(args):
     _dbg('cmd println:', args)
     print(*args)
 
+def _ingresar(args):
+    _dbg('cmd ingresar')
+    args[0].setVal(sys.stdin.readline().strip())
+
 _cmdmap = {
     'println': _println,
+    'ingresar': _ingresar,
 }
 _cmdmap.update(colas.cmdmap)
 
