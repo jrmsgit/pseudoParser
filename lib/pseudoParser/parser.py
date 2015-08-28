@@ -47,7 +47,7 @@ def t_DELIM(t):
 def t_NEWLINE(t):
     r'\n+'
     _dbg('NEWLINE: line ', t.lexer.lineno)
-    t.lexer.lineno += len(t.value)
+    t.lexer.lineno += t.value.count('\n')
 
 def t_ICONST(t):
     r'\d+'
@@ -58,12 +58,12 @@ def t_ICONST(t):
 def t_COMMENT(t):
     r'/\*(.|\n)*?\*/'
     _dbg('COMMENT: line ', t.lexer.lineno)
-    t.lexer.lineno += 1
+    t.lexer.lineno += t.value.count('\n')
 
 def t_CPPCOMMENT(t):
     r'//.*\n'
     _dbg('CPPCOMMENT: line ', t.lexer.lineno)
-    t.lexer.lineno += len(t.value)
+    t.lexer.lineno += t.value.count('\n')
 
 def t_error(t):
     _dbg('t_error')
@@ -73,7 +73,7 @@ _dbg('build lexer')
 import ply.lex as lex
 
 lexer = lex.lex(debug=1)
-lexer.lineno = 0
+lexer.lineno = 1
 
 # attach lexer to errors module
 errors.lexer = lexer
