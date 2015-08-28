@@ -1,2 +1,5 @@
 * println(ID); no se da cuenta si ID está declaro entonces imprime
   el str literal.
+
+* pseudoParser.errors.ppSyntaxError: pseudoParser.compiler: syntax error at '(', line '23'
+  En lugar de eso ^ devolver un error tipo "unrecognized keyword", porque ese error se genera si el ID que estaba delante del ( no es reserved token.

@@ -1,6 +1,7 @@
 .*.swp
 *.patch
 __pycache__
+tests.py
 devel.src
 devel.json
 lib/parser.out
