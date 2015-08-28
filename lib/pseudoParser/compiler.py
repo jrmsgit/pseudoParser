@@ -55,7 +55,8 @@ def p_assign_statement(p):
 
 def p_type_specifier(p):
     """type_specifier : INT
-                      | COLA"""
+                      | COLA
+                      | PILA"""
     _dbg('type_specifier')
     p[0] = p[1]
 

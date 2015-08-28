@@ -26,6 +26,7 @@ assign_statement : ID EQUAL expression
 
 type_specifier : INT
                | COLA
+               | PILA
 
 expression : ID
            | constant

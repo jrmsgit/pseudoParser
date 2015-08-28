@@ -1,5 +1,5 @@
 from ..errors import *
-from . import numbers, colas
+from . import numbers, colas, pilas
 
 
 def _dbg(*args):
@@ -7,9 +7,11 @@ def _dbg(*args):
 
 
 _varsTable = dict()
-reserved = numbers.reserved + colas.reserved
+reserved = numbers.reserved + colas.reserved + pilas.reserved
+
 classmap = numbers.classmap
 classmap.update(colas.classmap)
+classmap.update(pilas.classmap)
 
 
 def _getVarClass(typ):

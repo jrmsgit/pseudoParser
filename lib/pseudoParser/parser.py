@@ -1,13 +1,14 @@
 from . import errors, commands
-from .vartypes import numbers, colas
+from .vartypes import numbers, colas, pilas
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
-reserved = numbers.reserved + colas.reserved + (
+reserved = (
     # -- init_func
     'INICIAR',
-) + commands.reserved
+) + commands.reserved + numbers.reserved
+reserved += colas.reserved + pilas.reserved
 
 tokens = reserved + (
     'DELIM',
