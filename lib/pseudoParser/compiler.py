@@ -10,14 +10,16 @@ def p_program(p):
     """program : program statement
                | statement"""
     _dbg('program ****************')
+    # lexer.lineno was already increased here so the -1 then
+    lineno = lexer.lineno - 1
     if len(p) == 2 and p[1]:
         p[0] = dict()
-        p[0][lexer.lineno] = p[1]
+        p[0][lineno] = p[1]
     elif len(p) == 3:
         p[0] = p[1]
         if not p[0]: p[0] = dict()
         if p[2]:
-            p[0][lexer.lineno] = p[2]
+            p[0][lineno] = p[2]
 
 # -- statement
 
