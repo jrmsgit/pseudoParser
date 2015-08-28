@@ -1,6 +1,5 @@
-from . import vartypes, commands
-from .lexer import *
-from .errors import *
+from .lexer import tokens, lexer
+from .errors import ppSyntaxError
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
@@ -11,6 +10,14 @@ def p_program(p):
     """program : program statement
                | statement"""
     _dbg('program ****************')
+    if len(p) == 2 and p[1]:
+        p[0] = dict()
+        p[0][lexer.lineno] = p[1]
+    elif len(p) == 3:
+        p[0] = p[1]
+        if not p[0]: p[0] = dict()
+        if p[2]:
+            p[0][lexer.lineno] = p[2]
 
 # -- statement
 
@@ -20,28 +27,29 @@ def p_statement(p):
                  | init_statement DELIM
                  | command_statement DELIM"""
     _dbg('statement')
-    p[0] = p[1]
+    if isinstance(p[1], tuple):
+        p[0] = p[1]
 
 # -- declare_statement
 
 def p_declare_statement(p):
     "declare_statement : type_specifier ID"
     _dbg('declare_statement')
-    vartypes.declare(p)
+    p[0] = ('DECLARE', p[1], p[2])
 
 # -- init_statement
 
 def p_init_statement(p):
     "init_statement : INICIAR LPAREN ID RPAREN"
     _dbg('init_statement')
-    vartypes.iniciar(p)
+    p[0] = ('INIT', p[1], p[3])
 
 # -- assign_statement
 
 def p_assign_statement(p):
     "assign_statement : ID EQUAL expression"
     _dbg('assign_statement:', p[1], p[3])
-    vartypes.assign(p)
+    p[0] = ('ASSIGN', p[1], p[3])
 
 # -- type_specifier
 
@@ -56,8 +64,7 @@ def p_type_specifier(p):
 def p_expression_1(p):
     "expression : ID"
     _dbg('expression:', p[1])
-    dst = vartypes.getVar(p[1])
-    p[0] = dst
+    p[0] = p[1]
 
 def p_expression_2(p):
     """expression : constant
@@ -77,7 +84,7 @@ def p_constant(p):
 def p_command_statement(p):
     "command_statement : command LPAREN command_args RPAREN"
     _dbg("command_statement:", p[1], p[3])
-    p[0] = commands.run(p[1], p[3])
+    p[0] = ('COMMAND', p[1], p[3])
 
 # -- command
 
@@ -94,20 +101,17 @@ def p_command(p):
 def p_command_args_2(p):
     "command_args : ID COMMA ID"
     _dbg('command_args:', p[1], p[3])
-    dst = vartypes.getVar(p[1])
-    src = vartypes.getVar(p[3])
-    p[0] = (dst, src)
+    p[0] = (p[1], p[3])
 
 def p_command_args_3(p):
     "command_args : ID COMMA constant"
     _dbg('command_args:', p[1], p[3])
-    dst = vartypes.getVar(p[1])
-    p[0] = (dst, p[3])
+    p[0] = (p[1], p[3])
 
 def p_command_args_1(p):
     "command_args : expression"
     _dbg('command_args:', p[1])
-    p[0] = p[1]
+    p[0] = (p[1],)
 
 # -- error
 

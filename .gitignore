@@ -1,6 +1,7 @@
 .*.swp
-*.src
 *.patch
 __pycache__
+devel.src
+devel.json
 lib/parser.out
 lib/parsetab.py

@@ -5,11 +5,7 @@ def _dbg(*args):
 
 def _println(args):
     _dbg('cmd println:', args)
-    if isinstance(args, tuple):
-        for i in list(args): print(i, end=' ')
-        print()
-    else:
-        print(args)
+    print(*args)
 
 _cmdmap = {
     'println': _println,

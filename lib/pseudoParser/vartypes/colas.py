@@ -1,4 +1,5 @@
 from .base import baseVar
+from ..errors import *
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
@@ -19,6 +20,8 @@ class _colaVar(baseVar):
             return val
 
     def acolar(self, val):
+        if self._val is None:
+            raise ppVarNotInit(__name__, self._ID)
         self._val.append(val)
 
     def desacolar(self):

@@ -42,7 +42,7 @@ class ppVarNotDeclared(ppError):
 
 class ppVarNotInit(ppError):
     def __init__(self, caller, ID):
-        super(ppVarNotDeclared, self).__init__(caller, "var not initialized at '%s'" % ID)
+        super(ppVarNotInit, self).__init__(caller, "var not initialized at '%s'" % ID)
 
 
 class ppVarInitDone(ppError):

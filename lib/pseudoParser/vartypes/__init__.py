@@ -15,7 +15,7 @@ classmap.update(colas.classmap)
 def _getVarClass(typ):
     klass = classmap.get(typ, None)
     if klass is None:
-        raise ppVarInvalidType(__name__, p[1])
+        raise ppVarInvalidType(__name__, typ)
     return klass
 
 
@@ -23,32 +23,32 @@ def _varDeclared(ID):
     return ID in _varsTable.keys()
 
 
-def declare(p):
+def declare(typ, ID):
     "type_specifier ID"
     global _varsTable
-    _dbg('declare:', p[1], p[2])
-    klass = _getVarClass(p[1])
-    if _varDeclared(p[2]):
-        raise ppVarDeclareDone(__name__, p[2])
-    _varsTable[p[2]] = klass(p[2])
+    _dbg('declare:', typ, ID)
+    klass = _getVarClass(typ)
+    if _varDeclared(ID):
+        raise ppVarDeclareDone(__name__, ID)
+    _varsTable[ID] = klass(ID)
 
 
-def assign(p):
-    "ID EQUAL expression"
+def assign(ID, expr):
+    "ID expression"
     global _varsTable
-    _dbg('assign:', p[1], p[2], p[3])
-    if _varDeclared(p[1]):
-        _varsTable[p[1]].setVal(p[3])
+    _dbg('assign:', ID, expr)
+    if _varDeclared(ID):
+        _varsTable[ID].setVal(expr)
     else:
-        raise ppVarNotDeclared(__name__, p[1])
+        raise ppVarNotDeclared(__name__, ID)
 
 
-def iniciar(p):
+def iniciar(ID):
     "INICIAR LPAREN ID RPAREN"
     global _varsTable
-    if not _varDeclared(p[3]):
-        raise ppVarNotDeclared(__name__, p[3])
-    v = _varsTable.get(p[3])
+    if not _varDeclared(ID):
+        raise ppVarNotDeclared(__name__, ID)
+    v = _varsTable.get(ID)
     v.initialize()
 
 
@@ -63,3 +63,6 @@ def getVar(ID):
     if v is None:
         raise ppVarNotDeclared(__name__, ID)
     return v
+
+def isDeclared(ID):
+    return _varDeclared(ID)
