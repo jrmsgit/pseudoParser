@@ -3,7 +3,7 @@
 
 import sys
 
-from .parser import parser
+from .compiler import parser
 from .interpreter import runprog
 
 code = None
