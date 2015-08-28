@@ -13,6 +13,7 @@ def runprog(program):
 
 
     def cmdStat(stat):
+        _dbg('cmdStat:', stat)
         args = list()
         for a in stat[2]:
             args.append(evalExpr(a))
@@ -20,19 +21,42 @@ def runprog(program):
 
 
     def evalExpr(expr):
-        _dbg('evalExpr:', expr)
         if vartypes.isDeclared(expr):
             # ID expression
-            return vartypes.getVar(expr)
+            _dbg('evalExpr ID:', expr)
+            return vartypes.getVar(expr).getVal()
         elif isinstance(expr, tuple):
+            _dbg('evalExpr %s:' % expr[0], expr)
             if expr[0] == 'COMMAND':
                 # command expression
                 return cmdStat(expr)
         else:
             # constant expression
+            _dbg('evalExpr constant:', expr)
             return expr
 
 
+    def evalCompExpr(expr):
+        _dbg('evalCompExpr:', expr)
+        if expr[1] == '==': return evalExpr(expr[0]) == evalExpr(expr[2])
+        if expr[1] == '!=': return evalExpr(expr[0]) != evalExpr(expr[2])
+        if expr[1] == '>': return evalExpr(expr[0]) > evalExpr(expr[2])
+        if expr[1] == '>=': return evalExpr(expr[0]) >= evalExpr(expr[2])
+        if expr[1] == '<': return evalExpr(expr[0]) < evalExpr(expr[2])
+        if expr[1] == '<=': return evalExpr(expr[0]) <= evalExpr(expr[2])
+
+
+    def condStat(stat):
+        _dbg('condStat:', stat)
+        cond = stat[1][0]
+        if cond == 'IF':
+            comp = stat[1][1]
+            expr = stat[1][2]
+            if evalCompExpr(comp): return evalExpr(expr)
+            else: return False
+
+
+    # -- main
     for lineno in sorted(program.keys()):
         stat = program[lineno]
         _dbg("%s:" % lineno, stat)
@@ -48,6 +72,9 @@ def runprog(program):
 
         elif stat[0] == 'COMMAND':
             cmdStat(stat)
+
+        elif stat[0] == 'CONDSTAT':
+            condStat(stat)
 
 
     print()

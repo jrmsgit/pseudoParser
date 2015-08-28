@@ -25,7 +25,8 @@ def p_statement(p):
     """statement : declare_statement DELIM
                  | assign_statement DELIM
                  | init_statement DELIM
-                 | command_statement DELIM"""
+                 | command_statement DELIM
+                 | conditional_statement"""
     _dbg('statement')
     if isinstance(p[1], tuple):
         p[0] = p[1]
@@ -117,6 +118,32 @@ def p_command_args_1(p):
     "command_args : expression"
     _dbg('command_args:', p[1])
     p[0] = (p[1],)
+
+# -- conditional_statement
+
+def p_conditional_statement(p):
+    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement RBRACE"
+    _dbg('conditional_statement:', p[1].upper())
+    p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
+
+# -- conditional_expression
+
+def p_conditional_expression(p):
+    "conditional_expression : comparison_expression"
+    _dbg('conditional_expression:', p[1])
+    p[0] = p[1]
+
+# -- comparison_expression
+
+def p_comparison_expression(p):
+    """comparison_expression : expression EQ expression
+                             | expression NE expression
+                             | expression GT expression
+                             | expression GE expression
+                             | expression LT expression
+                             | expression LE expression"""
+    _dbg('conditional_expression:', p[1], p[2], p[3])
+    p[0] = (p[1], p[2], p[3])
 
 # -- error
 

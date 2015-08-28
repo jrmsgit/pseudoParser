@@ -5,8 +5,10 @@ def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
 
 reserved = (
-    # -- init_func
+    # init func
     'INICIAR',
+    # keywords
+    'IF',
 ) + commands.reserved + numbers.reserved
 reserved += colas.reserved + pilas.reserved
 
@@ -18,6 +20,14 @@ tokens = reserved + (
     'LPAREN',
     'RPAREN',
     'COMMA',
+    'EQ',
+    'NE',
+    'GT',
+    'GE',
+    'LT',
+    'LE',
+    'LBRACE',
+    'RBRACE',
 )
 
 t_ignore = ' \t\x0c'
@@ -25,6 +35,14 @@ t_EQUAL = r'='
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_COMMA = r','
+t_EQ = r'=='
+t_NE = r'!='
+t_GT = r'>'
+t_GE = r'>='
+t_LT = r'<'
+t_LE = r'<='
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
 
 reserved_map = dict()
 for r in reserved:
