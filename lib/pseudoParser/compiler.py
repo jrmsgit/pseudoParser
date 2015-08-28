@@ -1,4 +1,4 @@
-from .lexer import tokens, lexer
+from .parser import tokens, lexer
 from .errors import ppSyntaxError
 
 def _dbg(*args):
