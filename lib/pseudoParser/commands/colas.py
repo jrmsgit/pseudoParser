@@ -10,9 +10,9 @@ def _desacolar(dst):
     _dbg('cmd desacolar:', dst)
     dst.desacolar()
 
-def _primero(dst):
-    _dbg('cmd primero:', dst)
-    return dst.primero()
+def _primero(args):
+    _dbg('cmd primero:', args[0])
+    return args[0].primero()
 
 cmdmap = {
     'acolar': _acolar,

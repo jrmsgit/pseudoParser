@@ -12,6 +12,27 @@ def runprog(program):
     print()
 
 
+    def cmdStat(stat):
+        args = list()
+        for a in stat[2]:
+            args.append(evalExpr(a))
+        return commands.run(stat[1], args)
+
+
+    def evalExpr(expr):
+        _dbg('evalExpr:', expr)
+        if vartypes.isDeclared(expr):
+            # ID expression
+            return vartypes.getVar(expr)
+        elif isinstance(expr, tuple):
+            if expr[0] == 'COMMAND':
+                # command expression
+                return cmdStat(expr)
+        else:
+            # constant expression
+            return expr
+
+
     for lineno in sorted(program.keys()):
         stat = program[lineno]
         _dbg("%s:" % lineno, stat)
@@ -20,19 +41,13 @@ def runprog(program):
             vartypes.declare(stat[1], stat[2])
 
         elif stat[0] == 'ASSIGN':
-            vartypes.assign(stat[1], stat[2])
+            vartypes.assign(stat[1], evalExpr(stat[2]))
 
         elif stat[0] == 'INIT':
             vartypes.iniciar(stat[2])
 
         elif stat[0] == 'COMMAND':
-            args = list()
-            for a in stat[2]:
-                if vartypes.isDeclared(a):
-                    args.append(vartypes.getVar(a))
-                else:
-                    args.append(a)
-            commands.run(stat[1], args)
+            cmdStat(stat)
 
 
     print()
