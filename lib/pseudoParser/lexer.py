@@ -70,7 +70,9 @@ def t_error(t):
 
 _dbg('build lexer')
 import ply.lex as lex
+
 lexer = lex.lex(debug=1)
+lexer.lineno = 0
 
 # attach lexer to errors module
 errors.lexer = lexer
