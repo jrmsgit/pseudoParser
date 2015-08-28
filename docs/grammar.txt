@@ -41,11 +41,9 @@ command : PRINTLN
         | ACOLAR
         | DESACOLAR
         | PRIMERO
-        | APILAR *
-        | DESAPILAR *
-        | TOPE *
-
-* aún sin implementar
+        | APILAR
+        | DESAPILAR
+        | TOPE
 
 command_args : ID COMMA ID
              | ID COMMA constant

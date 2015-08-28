@@ -1,5 +1,5 @@
 import sys
-from . import colas
+from . import colas, pilas
 
 def _dbg(*args):
     print('D:%s' % __name__, '-', *args)
@@ -17,6 +17,7 @@ _cmdmap = {
     'ingresar': _ingresar,
 }
 _cmdmap.update(colas.cmdmap)
+_cmdmap.update(pilas.cmdmap)
 
 _rk = list()
 for k in _cmdmap.keys():

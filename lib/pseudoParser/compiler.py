@@ -94,7 +94,10 @@ def p_command(p):
                | INGRESAR
                | ACOLAR
                | DESACOLAR
-               | PRIMERO"""
+               | PRIMERO
+               | APILAR
+               | DESAPILAR
+               | TOPE"""
     _dbg("command", p[1])
     p[0] = p[1]
 
