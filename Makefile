@@ -5,7 +5,7 @@ clean:
 devparser: clean
 	@cd lib && python3 -m pseudoParser.parser ../devel.src ; cd - >/dev/null
 
-devcompiler: clean
+devrun: clean
 	@cd lib && python3 -m pseudoParser ../devel.src ; cd - >/dev/null
 
-.PHONY: clean devparser devcompiler
+.PHONY: clean devparser devrun
