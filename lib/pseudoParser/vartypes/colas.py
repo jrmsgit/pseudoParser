@@ -25,9 +25,13 @@ class _colaVar(baseVar):
         self._val.append(val)
 
     def desacolar(self):
+        if self._val is None:
+            raise ppVarNotInit(__name__, self._ID)
         self._val.pop(0)
 
     def primero(self):
+        if self._val is None:
+            raise ppVarNotInit(__name__, self._ID)
         r = self._val[0]
         _dbg('primero:', r)
         return r
