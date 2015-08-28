@@ -1,14 +1,22 @@
-IGNORE : ' \t\x0c'
-DELIM : r';'
-ICONST : r'\d+'
-ID : r'[A-Za-z_][\w_]*'
-NEWLINE : r'\n+'
-EQUAL : r'='
-LPAREN = r'\('
-RPAREN = r'\)'
-COMMA = r','
-COMMENT = r'/\*(.|\n)*?\*/'
-CPPCOMMENT = r'//.*\n'
+IGNORE      : ' \t\x0c'
+DELIM       : r';'
+ICONST      : r'\d+'
+ID          : r'[A-Za-z_][\w_]*'
+NEWLINE     : r'\n+'
+EQUAL       : r'='
+LPAREN      : r'\('
+RPAREN      : r'\)'
+COMMA       : r','
+COMMENT     : r'/\*(.|\n)*?\*/'
+CPPCOMMENT  : r'//.*\n'
+EQ          : r'=='
+NE          : r'!='
+GT          : r'>'
+GE          : r'>='
+LT          : r'<'
+LE          : r'<='
+LBRACE      : r'\{'
+RBRACE      : r'\}'
 
 program : program statement
         | statement
@@ -17,6 +25,8 @@ statement : declare_statement DELIM
           | assign_statement DELIM
           | init_statement DELIM
           | command_statement DELIM
+          | conditional_statement
+          | loop_statement *
 
 declare_statement : type_specifier ID
 
@@ -48,3 +58,24 @@ command : PRINTLN
 command_args : ID COMMA ID
              | ID COMMA constant
              | expression
+
+conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+
+* loop_statement : while_loop_statement
+                 | for_loop_statement
+
+* while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+
+* for_loop_statement : FOR LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+
+conditional_expression : comparison_expression
+
+comparison_expression : expression EQ expression
+                      | expression NE expression
+                      | expression NE expression
+                      | expression GT expression
+                      | expression GE expression
+                      | expression LT expression
+                      | expression LE expression
+
+* not implemented yet
