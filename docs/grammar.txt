@@ -26,7 +26,10 @@ statement : declare_statement DELIM
           | init_statement DELIM
           | command_statement DELIM
           | conditional_statement
-          | loop_statement *
+          | loop_statement
+
+statement_list : statement_list statement
+               | statement
 
 declare_statement : type_specifier ID
 
@@ -59,14 +62,14 @@ command_args : ID COMMA ID
              | ID COMMA constant
              | expression
 
-conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement_list RBRACE
 
-* loop_statement : while_loop_statement
-                 | for_loop_statement
+loop_statement : while_loop_statement
+               | for_loop_statement*
 
-* while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE statement_list RBRACE
 
-* for_loop_statement : FOR LPAREN conditional_expression RPAREN LBRACE statement RBRACE
+for_loop_statement* : FOR LPAREN conditional_expression RPAREN LBRACE statement_list RBRACE
 
 conditional_expression : comparison_expression
 

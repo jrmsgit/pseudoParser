@@ -28,10 +28,20 @@ def p_statement(p):
                  | assign_statement DELIM
                  | init_statement DELIM
                  | command_statement DELIM
-                 | conditional_statement"""
+                 | conditional_statement
+                 | loop_statement"""
     _dbg('statement')
     if isinstance(p[1], tuple):
         p[0] = p[1]
+
+def p_statement_list(p):
+    """statement_list : statement_list statement
+                      | statement"""
+    _dbg('statement_list')
+    if len(p) == 2:
+        p[0] = (p[1],)
+    elif len(p) == 3:
+        p[0] = p[1] + (p[2],)
 
 # -- declare_statement
 
@@ -124,8 +134,8 @@ def p_command_args_1(p):
 # -- conditional_statement
 
 def p_conditional_statement(p):
-    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement RBRACE"
-    _dbg('conditional_statement:', p[1].upper())
+    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement_list  RBRACE"
+    _dbg('conditional_statement:', p[1].upper(), p[3], p[6])
     p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
 
 # -- conditional_expression
@@ -146,6 +156,18 @@ def p_comparison_expression(p):
                              | expression LE expression"""
     _dbg('conditional_expression:', p[1], p[2], p[3])
     p[0] = (p[1], p[2], p[3])
+
+# -- loop_statement
+
+def p_loop_statement(p):
+    "loop_statement : while_loop_statement"
+    _dbg('loop_statement:', p[1])
+    p[0] = ('LOOPSTAT', p[1])
+
+def p_while_loop_statement(p):
+    "while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE statement_list RBRACE"
+    _dbg('while_loop_statement:', p[1].upper(), p[3], p[6])
+    p[0] = (p[1].upper(), p[3], p[6])
 
 # -- error
 

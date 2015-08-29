@@ -20,16 +20,37 @@ def runprog(program):
         return commands.run(stat[1], args)
 
 
+    def evalStat(stat):
+        if stat[0] == 'DECLARE':
+            vartypes.declare(stat[1], stat[2])
+
+        elif stat[0] == 'ASSIGN':
+            vartypes.assign(stat[1], evalExpr(stat[2]))
+
+        elif stat[0] == 'INIT':
+            vartypes.iniciar(stat[2])
+
+        elif stat[0] == 'COMMAND':
+            cmdStat(stat)
+
+        elif stat[0] == 'CONDSTAT':
+            condStat(stat)
+
+        elif stat[0] == 'LOOPSTAT':
+            loopStat(stat)
+
+
     def evalExpr(expr):
-        if vartypes.isDeclared(expr):
+        if isinstance(expr, tuple):
+            _dbg('evalExpr:', str(expr))
+            for expr2 in expr:
+                evalStat(expr2)
+
+        elif vartypes.isDeclared(expr):
             # ID expression
             _dbg('evalExpr ID:', expr)
             return vartypes.getVar(expr).getVal()
-        elif isinstance(expr, tuple):
-            _dbg('evalExpr %s:' % expr[0], expr)
-            if expr[0] == 'COMMAND':
-                # command expression
-                return cmdStat(expr)
+
         else:
             # constant expression
             _dbg('evalExpr constant:', expr)
@@ -56,25 +77,21 @@ def runprog(program):
             else: return False
 
 
+    def loopStat(stat):
+        _dbg('loopStat:', stat)
+        loop = stat[1][0]
+        if loop == 'WHILE':
+            comp = stat[1][1]
+            expr = stat[1][2]
+            # TODO: infite loop limit?
+            while evalCompExpr(comp): evalExpr(expr)
+
+
     # -- main
     for lineno in sorted(program.keys()):
         stat = program[lineno]
         _dbg("%s:" % lineno, stat)
-
-        if stat[0] == 'DECLARE':
-            vartypes.declare(stat[1], stat[2])
-
-        elif stat[0] == 'ASSIGN':
-            vartypes.assign(stat[1], evalExpr(stat[2]))
-
-        elif stat[0] == 'INIT':
-            vartypes.iniciar(stat[2])
-
-        elif stat[0] == 'COMMAND':
-            cmdStat(stat)
-
-        elif stat[0] == 'CONDSTAT':
-            condStat(stat)
+        evalStat(stat)
 
 
     print()

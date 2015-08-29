@@ -9,6 +9,7 @@ reserved = (
     'INICIAR',
     # keywords
     'IF',
+    'WHILE',
 ) + commands.reserved + numbers.reserved
 reserved += colas.reserved + pilas.reserved
 
