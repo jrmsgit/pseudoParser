@@ -1,8 +1,8 @@
 from .base import baseVar
 from ..errors import *
+from ..logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 class _pilaVar(baseVar):
 
@@ -10,7 +10,7 @@ class _pilaVar(baseVar):
         super(_pilaVar, self).__init__('pila', ID)
 
     def doInit(self):
-        _dbg('pila initialize')
+        logger.dbg('pila initialize')
         self.setVal(list())
 
     def assignValidate(self, val):
@@ -33,7 +33,7 @@ class _pilaVar(baseVar):
         if self._val is None:
             raise ppVarNotInit(__name__, self._ID)
         r = self._val[-1]
-        _dbg('tope:', r)
+        logger.dbg('tope:', r)
         return r
 
 classmap = {'pila': _pilaVar}

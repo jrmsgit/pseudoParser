@@ -1,7 +1,7 @@
 from .base import baseVar
+from ..logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 class _intVar(baseVar):
 
@@ -12,7 +12,7 @@ class _intVar(baseVar):
         pass
 
     def assignValidate(self, val):
-        _dbg(self._typ, 'assing validate', self._ID)
+        logger.dbg(self._typ, 'assing validate', self._ID)
         return int(val)
 
 classmap = {'int': _intVar}

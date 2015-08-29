@@ -1,10 +1,8 @@
 from ..errors import *
 from . import numbers, colas, pilas
+from ..logger import ppLogger
 
-
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
-
+logger = ppLogger(__name__)
 
 _varsTable = dict()
 reserved = numbers.reserved + colas.reserved + pilas.reserved
@@ -28,7 +26,7 @@ def _varDeclared(ID):
 def declare(typ, ID):
     "type_specifier ID"
     global _varsTable
-    _dbg('declare:', typ, ID)
+    logger.dbg('declare:', typ, ID)
     klass = _getVarClass(typ)
     if _varDeclared(ID):
         raise ppVarDeclareDone(__name__, ID)
@@ -38,7 +36,7 @@ def declare(typ, ID):
 def assign(ID, expr):
     "ID expression"
     global _varsTable
-    _dbg('assign:', ID, expr)
+    logger.dbg('assign:', ID, expr)
     if _varDeclared(ID):
         _varsTable[ID].setVal(expr)
     else:

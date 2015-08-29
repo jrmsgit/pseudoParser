@@ -1,7 +1,7 @@
 from ..errors import *
+from ..logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 class baseVar(object):
     _typ = None
@@ -24,7 +24,7 @@ class baseVar(object):
     def assignValidate(self, val):
         # should be re-implemented!
         # if not valid: raise an exception
-        _dbg(self._typ, 'assignValidate NOT RE-IMPLEMENTED')
+        logger.dbg(self._typ, 'assignValidate NOT RE-IMPLEMENTED')
         return val
 
     def getVal(self):
@@ -32,11 +32,11 @@ class baseVar(object):
         else: return self._val
 
     def setVal(self, val):
-        _dbg(self._typ, 'setVal', self._ID, str(val))
+        logger.dbg(self._typ, 'setVal', self._ID, str(val))
         try:
             self._val = self.assignValidate(val)
         except Exception as e:
-            _dbg(e)
+            logger.dbg(e)
             raise ppVarInvalidAssign(__name__, self._ID, self._typ, val)
 
     def initialize(self):
@@ -46,4 +46,4 @@ class baseVar(object):
 
     def doInit(self):
         # should be re-implemented!
-        _dbg(self._typ, 'doInit NOT RE-IMPLEMENTED')
+        logger.dbg(self._typ, 'doInit NOT RE-IMPLEMENTED')

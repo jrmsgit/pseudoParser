@@ -1,8 +1,8 @@
 from .base import baseVar
 from ..errors import *
+from ..logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 class _colaVar(baseVar):
 
@@ -10,7 +10,7 @@ class _colaVar(baseVar):
         super(_colaVar, self).__init__('cola', ID)
 
     def doInit(self):
-        _dbg('cola initialize')
+        logger.dbg('cola initialize')
         self.setVal(list())
 
     def assignValidate(self, val):
@@ -33,7 +33,7 @@ class _colaVar(baseVar):
         if self._val is None:
             raise ppVarNotInit(__name__, self._ID)
         r = self._val[0]
-        _dbg('primero:', r)
+        logger.dbg('primero:', r)
         return r
 
 classmap = {'cola': _colaVar}

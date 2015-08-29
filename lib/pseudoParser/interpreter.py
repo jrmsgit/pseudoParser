@@ -1,8 +1,8 @@
 import json
 from . import vartypes, commands
+from .logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 def runprog(program):
     print()
@@ -13,7 +13,7 @@ def runprog(program):
 
 
     def cmdStat(stat):
-        _dbg('cmdStat:', stat)
+        logger.dbg('cmdStat:', stat)
         args = list()
         for a in stat[2]:
             args.append(evalExpr(a))
@@ -42,23 +42,23 @@ def runprog(program):
 
     def evalExpr(expr):
         if isinstance(expr, tuple):
-            _dbg('evalExpr:', str(expr))
+            logger.dbg('evalExpr:', str(expr))
             for expr2 in expr:
                 evalStat(expr2)
 
         elif vartypes.isDeclared(expr):
             # ID expression
-            _dbg('evalExpr ID:', expr)
+            logger.dbg('evalExpr ID:', expr)
             return vartypes.getVar(expr).getVal()
 
         else:
             # constant expression
-            _dbg('evalExpr constant:', expr)
+            logger.dbg('evalExpr constant:', expr)
             return expr
 
 
     def evalCompExpr(expr):
-        _dbg('evalCompExpr:', expr)
+        logger.dbg('evalCompExpr:', expr)
         if expr[1] == '==': return evalExpr(expr[0]) == evalExpr(expr[2])
         if expr[1] == '!=': return evalExpr(expr[0]) != evalExpr(expr[2])
         if expr[1] == '>': return evalExpr(expr[0]) > evalExpr(expr[2])
@@ -68,7 +68,7 @@ def runprog(program):
 
 
     def condStat(stat):
-        _dbg('condStat:', stat)
+        logger.dbg('condStat:', stat)
         cond = stat[1][0]
         if cond == 'IF':
             comp = stat[1][1]
@@ -78,7 +78,7 @@ def runprog(program):
 
 
     def loopStat(stat):
-        _dbg('loopStat:', stat)
+        logger.dbg('loopStat:', stat)
         loop = stat[1][0]
         if loop == 'WHILE':
             comp = stat[1][1]
@@ -90,7 +90,7 @@ def runprog(program):
     # -- main
     for lineno in sorted(program.keys()):
         stat = program[lineno]
-        _dbg("%s:" % lineno, stat)
+        logger.dbg("%s:" % lineno, stat)
         evalStat(stat)
 
 

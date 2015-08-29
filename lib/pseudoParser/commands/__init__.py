@@ -1,15 +1,15 @@
 import sys
 from . import colas, pilas
+from ..logger import ppLogger
 
-def _dbg(*args):
-    print('D:%s' % __name__, '-', *args)
+logger = ppLogger(__name__)
 
 def _println(args):
-    _dbg('cmd println:', args)
+    logger.dbg('cmd println:', args)
     print(*args)
 
 def _ingresar(args):
-    _dbg('cmd ingresar')
+    logger.dbg('cmd ingresar')
     args[0].setVal(sys.stdin.readline().strip())
 
 _cmdmap = {
@@ -25,6 +25,6 @@ for k in _cmdmap.keys():
 reserved = tuple(_rk)
 
 def run(cmd, args):
-    _dbg('run', cmd, args)
+    logger.dbg('run', cmd, args)
     f = _cmdmap.get(cmd, None)
     return f(args)
