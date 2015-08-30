@@ -44,18 +44,23 @@ def runprog(program):
             loopStat(stat)
 
     def evalExpr(expr):
+        # statements block / program
         if isinstance(expr, dict):
             logger.dbg('dict expr:', expr)
             for ek in sorted(expr.keys()):
                 evalStat(ek, expr[ek])
 
+        # constant expression
         elif isinstance(expr, tuple) and expr[0] == 'CONSTEXPR':
-            # constant expression
             logger.dbg('constant expr:', expr)
             return expr[1]
 
+        # command statement
+        elif isinstance(expr, tuple) and expr[0] == 'COMMAND':
+            return cmdStat(expr)
+
+        # ID expression (default)
         else:
-            # ID expression
             logger.dbg('ID expr:', expr)
             return vartypes.getVar(expr).getVal()
 
