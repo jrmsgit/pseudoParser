@@ -3,23 +3,25 @@ from .errors import ppSyntaxError
 from .logger import ppLogger
 
 logger = ppLogger(__name__)
+_statnr = 0
 
 # -- program
 
 def p_program(p):
     """program : program statement
                | statement"""
+    global _statnr
     logger.dbg('program ****************')
     # lexer.lineno was already increased here so the -1 then
     lineno = lexer.lineno - 1
     if len(p) == 2 and p[1]:
         p[0] = dict()
-        p[0][lineno] = p[1]
+        p[0][_statnr] = p[1]
     elif len(p) == 3:
         p[0] = p[1]
         if not p[0]: p[0] = dict()
         if p[2]:
-            p[0][lineno] = p[2]
+            p[0][_statnr] = p[2]
 
 # -- statement
 
@@ -30,9 +32,11 @@ def p_statement(p):
                  | command_statement DELIM
                  | conditional_statement
                  | loop_statement"""
+    global _statnr
     logger.dbg('statement')
     if isinstance(p[1], tuple):
         p[0] = p[1]
+        _statnr += 1
 
 def p_statement_list(p):
     """statement_list : statement_list statement
