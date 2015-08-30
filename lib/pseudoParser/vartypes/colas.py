@@ -36,5 +36,9 @@ class _colaVar(baseVar):
         logger.dbg('primero:', r)
         return r
 
+    def getVal(self):
+        if self._val is None: raise ppVarNotInit(__name__, self._ID)
+        else: return self
+
 classmap = {'cola': _colaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])
