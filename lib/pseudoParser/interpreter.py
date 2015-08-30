@@ -1,16 +1,9 @@
-import json
 from . import vartypes, commands
 from .logger import ppLogger
 
 logger = ppLogger(__name__)
 
 def runprog(program):
-    logger.dbg()
-    logger.dbg("*******************************************************")
-    logger.dbg(json.dumps(program, indent=2, sort_keys=True))
-    logger.dbg("*******************************************************")
-    logger.dbg()
-
 
     def cmdStat(stat):
         logger.dbg('cmdStat:', stat)
@@ -18,7 +11,6 @@ def runprog(program):
         for a in stat[2]:
             args.append(evalExpr(a))
         return commands.run(stat[1], args)
-
 
     def evalStat(stat):
         if stat[0] == 'DECLARE':
@@ -39,7 +31,6 @@ def runprog(program):
         elif stat[0] == 'LOOPSTAT':
             loopStat(stat)
 
-
     def evalExpr(expr):
         if isinstance(expr, tuple):
             logger.dbg('evalExpr:', str(expr))
@@ -56,7 +47,6 @@ def runprog(program):
             logger.dbg('evalExpr constant:', expr)
             return expr
 
-
     def evalCompExpr(expr):
         logger.dbg('evalCompExpr:', expr)
         if expr[1] == '==': return evalExpr(expr[0]) == evalExpr(expr[2])
@@ -65,7 +55,6 @@ def runprog(program):
         if expr[1] == '>=': return evalExpr(expr[0]) >= evalExpr(expr[2])
         if expr[1] == '<': return evalExpr(expr[0]) < evalExpr(expr[2])
         if expr[1] == '<=': return evalExpr(expr[0]) <= evalExpr(expr[2])
-
 
     def condStat(stat):
         logger.dbg('condStat:', stat)
@@ -76,7 +65,6 @@ def runprog(program):
             if evalCompExpr(comp): return evalExpr(expr)
             else: return False
 
-
     def loopStat(stat):
         logger.dbg('loopStat:', stat)
         loop = stat[1][0]
@@ -85,7 +73,6 @@ def runprog(program):
             expr = stat[1][2]
             # TODO: infite loop limit?
             while evalCompExpr(comp): evalExpr(expr)
-
 
     # -- main
     for lineno in sorted(program.keys()):
@@ -99,3 +86,19 @@ def runprog(program):
     logger.dbg(vartypes.varsTableRepr())
     logger.dbg("*******************************************************")
     logger.dbg()
+
+# -- main
+if __name__ == '__main__':
+    import sys
+    from .compiler import parser
+
+    code = None
+    try:
+        fh = open(sys.argv[1], 'r')
+        code = fh.read()
+        fh.close()
+    except IndexError:
+        code = sys.stdin.read()
+
+    program = parser.parse(code)
+    runprog(program)

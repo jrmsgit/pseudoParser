@@ -188,3 +188,23 @@ def p_error(p):
 logger.dbg('build yacc parser')
 import ply.yacc as yacc
 parser = yacc.yacc(debug=1)
+
+# -- main
+if __name__ == '__main__':
+    import sys, json
+
+    code = None
+    try:
+        fh = open(sys.argv[1], 'r')
+        code = fh.read()
+        fh.close()
+    except IndexError:
+        code = sys.stdin.read()
+
+    program = parser.parse(code)
+
+    logger.dbg()
+    logger.dbg("*******************************************************")
+    logger.dbg(json.dumps(program, indent=2, sort_keys=True))
+    logger.dbg("*******************************************************")
+    logger.dbg()
