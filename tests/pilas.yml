@@ -1,0 +1,78 @@
+- name: declare and init
+  code: "pila p1; iniciar(p1);"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, iniciar, p1]
+
+
+- name: apilar int
+  code: "pila p1; iniciar(p1); apilar(p1, 1);"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, iniciar, p1]
+    3: !!python/tuple
+      - COMMAND
+      - apilar
+      - !!python/tuple
+        - p1
+        - !!python/tuple [CONSTEXPR, 1]
+
+
+- name: println
+  code: "pila p1; iniciar(p1); apilar(p1, 1); println(p1);"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, iniciar, p1]
+    3: !!python/tuple
+      - COMMAND
+      - apilar
+      - !!python/tuple
+        - p1
+        - !!python/tuple [CONSTEXPR, 1]
+    4: !!python/tuple
+      - COMMAND
+      - println
+      - !!python/tuple
+        - p1
+
+
+- name: println primero
+  code: "pila p1; iniciar(p1); apilar(p1, 3); println(tope(p1));"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, iniciar, p1]
+    3: !!python/tuple
+    - COMMAND
+    - apilar
+    - !!python/tuple
+      - p1
+      - !!python/tuple [CONSTEXPR, 3]
+    4: !!python/tuple
+    - COMMAND
+    - println
+    - !!python/tuple
+      - !!python/tuple
+        - COMMAND
+        - tope
+        - !!python/tuple [p1]
+
+
+- name: desapilar
+  code: "pila p1; iniciar(p1); apilar(p1, 3); desapilar(p1); println(p1);"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, iniciar, p1]
+    3: !!python/tuple
+    - COMMAND
+    - apilar
+    - !!python/tuple
+      - p1
+      - !!python/tuple [CONSTEXPR, 3]
+    4: !!python/tuple
+    - COMMAND
+    - desapilar
+    - !!python/tuple [p1]
+    5: !!python/tuple
+    - COMMAND
+    - println
+    - !!python/tuple [p1]
