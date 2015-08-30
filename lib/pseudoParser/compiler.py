@@ -9,7 +9,8 @@ _statnr = 0
 
 def p_program(p):
     """program : program statement
-               | statement"""
+               | statement
+               | empty"""
     global _statnr
     logger.dbg('program ****************')
     if len(p) == 3:
@@ -20,6 +21,10 @@ def p_program(p):
     elif len(p) == 2 and p[1]:
         p[0] = dict()
         p[0][_statnr] = p[1]
+
+def p_empty(p):
+    "empty : "
+    p[0] = None
 
 # -- statement
 

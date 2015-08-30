@@ -20,6 +20,7 @@ RBRACE      : r'\}'
 
 program : program statement
         | statement
+        | empty
 
 statement : declare_statement DELIM
           | assign_statement DELIM
@@ -27,6 +28,8 @@ statement : declare_statement DELIM
           | command_statement DELIM
           | conditional_statement
           | loop_statement
+
+empty :
 
 declare_statement : type_specifier ID
 
