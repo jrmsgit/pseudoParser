@@ -14,4 +14,7 @@ devel.src-interpreter:
 devel.src-run:
 	@cd lib && python3 -m pseudoParser ../devel.src 2>/dev/null ; cd - >/dev/null
 
-.PHONY: clean parse-devel.src run-devel.src
+run-tests:
+	@python3 -m tests 2>/dev/null
+
+.PHONY: clean devel.src-parse devel.src-compile devel.src-interpreter devel.src-run run-tests
