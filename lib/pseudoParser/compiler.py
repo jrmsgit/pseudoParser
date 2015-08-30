@@ -12,16 +12,14 @@ def p_program(p):
                | statement"""
     global _statnr
     logger.dbg('program ****************')
-    # lexer.lineno was already increased here so the -1 then
-    lineno = lexer.lineno - 1
-    if len(p) == 2 and p[1]:
-        p[0] = dict()
-        p[0][_statnr] = p[1]
-    elif len(p) == 3:
+    if len(p) == 3:
         p[0] = p[1]
         if not p[0]: p[0] = dict()
         if p[2]:
             p[0][_statnr] = p[2]
+    elif len(p) == 2 and p[1]:
+        p[0] = dict()
+        p[0][_statnr] = p[1]
 
 # -- statement
 
@@ -37,15 +35,6 @@ def p_statement(p):
     if isinstance(p[1], tuple):
         p[0] = p[1]
         _statnr += 1
-
-def p_statement_list(p):
-    """statement_list : statement_list statement
-                      | statement"""
-    logger.dbg('statement_list')
-    if len(p) == 3:
-        p[0] = p[1] + (p[2],)
-    elif len(p) == 2:
-        p[0] = (p[1],)
 
 # -- declare_statement
 
@@ -138,7 +127,7 @@ def p_command_args_1(p):
 # -- conditional_statement
 
 def p_conditional_statement(p):
-    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE statement_list  RBRACE"
+    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE program  RBRACE"
     logger.dbg('conditional_statement:', p[1].upper(), p[3], p[6])
     p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
 
@@ -169,7 +158,7 @@ def p_loop_statement(p):
     p[0] = ('LOOPSTAT', p[1])
 
 def p_while_loop_statement(p):
-    "while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE statement_list RBRACE"
+    "while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE program RBRACE"
     logger.dbg('while_loop_statement:', p[1].upper(), p[3], p[6])
     p[0] = (p[1].upper(), p[3], p[6])
 

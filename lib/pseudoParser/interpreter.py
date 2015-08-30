@@ -13,6 +13,7 @@ def runprog(program):
         return commands.run(stat[1], args)
 
     def evalStat(stat):
+        logger.dbg('evalStat:', stat)
         if stat[0] == 'DECLARE':
             vartypes.declare(stat[1], stat[2])
 
@@ -32,32 +33,35 @@ def runprog(program):
             loopStat(stat)
 
     def evalExpr(expr):
-        if isinstance(expr, tuple):
-            logger.dbg('evalExpr:', str(expr))
-            for expr2 in expr:
-                evalStat(expr2)
+        if isinstance(expr, dict):
+            logger.dbg('dict expr:', expr)
+            for ek in sorted(expr.keys()):
+                evalStat(expr[ek])
 
         elif vartypes.isDeclared(expr):
             # ID expression
-            logger.dbg('evalExpr ID:', expr)
-            return vartypes.getVar(expr)
+            logger.dbg('ID expr:', expr)
+            return vartypes.getVar(expr).getVal()
 
         else:
             # constant expression
-            logger.dbg('evalExpr constant:', expr)
+            logger.dbg('constant expr:', expr)
             return expr
 
     def evalCompExpr(expr):
-        logger.dbg('evalCompExpr:', expr)
-        if expr[1] == '==': return evalExpr(expr[0]) == evalExpr(expr[2])
-        if expr[1] == '!=': return evalExpr(expr[0]) != evalExpr(expr[2])
-        if expr[1] == '>': return evalExpr(expr[0]) > evalExpr(expr[2])
-        if expr[1] == '>=': return evalExpr(expr[0]) >= evalExpr(expr[2])
-        if expr[1] == '<': return evalExpr(expr[0]) < evalExpr(expr[2])
-        if expr[1] == '<=': return evalExpr(expr[0]) <= evalExpr(expr[2])
+        logger.dbg('evalCompExpr:', expr[0], expr[1], expr[2])
+        v = None
+        if expr[1] == '==': v =  evalExpr(expr[0]) == evalExpr(expr[2])
+        if expr[1] == '!=': v =  evalExpr(expr[0]) != evalExpr(expr[2])
+        if expr[1] == '>': v =  evalExpr(expr[0]) > evalExpr(expr[2])
+        if expr[1] == '>=': v =  evalExpr(expr[0]) >= evalExpr(expr[2])
+        if expr[1] == '<': v =  evalExpr(expr[0]) < evalExpr(expr[2])
+        if expr[1] == '<=': v =  evalExpr(expr[0]) <= evalExpr(expr[2])
+        logger.dbg('comp was:', v)
+        return v
 
     def condStat(stat):
-        logger.dbg('condStat:', stat)
+        logger.dbg('condStat:', stat[1][0], stat[1][1], stat[1][2])
         cond = stat[1][0]
         if cond == 'IF':
             comp = stat[1][1]
@@ -75,9 +79,9 @@ def runprog(program):
             while evalCompExpr(comp): evalExpr(expr)
 
     # -- main
-    for lineno in sorted(program.keys()):
-        stat = program[lineno]
-        logger.dbg("%s:" % lineno, stat)
+    for statnr in sorted(program.keys()):
+        stat = program[statnr]
+        logger.dbg("%d:" % statnr, stat)
         evalStat(stat)
 
 
