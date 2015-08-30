@@ -5,6 +5,10 @@ from .logger import ppLogger
 logger = ppLogger(__name__)
 _statnr = 0
 
+def progStart():
+    global _statnr
+    _statnr = 0
+
 # -- program
 
 def p_program(p):

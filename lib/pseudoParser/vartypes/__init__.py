@@ -23,6 +23,11 @@ def _varDeclared(ID):
     return ID in _varsTable.keys()
 
 
+def progStart():
+    global _varsTable
+    _varsTable = dict()
+
+
 def declare(typ, ID):
     "type_specifier ID"
     global _varsTable

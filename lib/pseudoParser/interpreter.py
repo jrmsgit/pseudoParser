@@ -1,12 +1,15 @@
-from . import vartypes, commands
+from . import vartypes, commands, compiler
 from .logger import ppLogger
 
 logger = ppLogger(__name__)
 curstat = 0
-statements = dict()
+statements = None
 
 def runprog(program):
-    global curstat
+    global curstat, statements
+    statements = dict()
+    vartypes.progStart()
+    compiler.progStart()
 
     def cmdStat(stat):
         logger.dbg('cmdStat:', stat)
@@ -17,7 +20,7 @@ def runprog(program):
 
     def evalStat(snr, stat):
         logger.dbg('evalStat:', snr, stat)
-        global curstat
+        global curstat, statements
         curstat = snr
 
         statements[snr] = stat
@@ -91,7 +94,6 @@ def runprog(program):
         stat = program[statnr]
         logger.dbg("%d:" % statnr, stat)
         evalStat(statnr, stat)
-
 
     logger.dbg()
     logger.dbg("*******************************************************")
