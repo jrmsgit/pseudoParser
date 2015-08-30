@@ -189,7 +189,7 @@ parser = yacc.yacc(debug=1)
 
 # -- main
 if __name__ == '__main__':
-    import sys, json
+    import sys, yaml
 
     code = None
     try:
@@ -203,6 +203,6 @@ if __name__ == '__main__':
 
     logger.dbg()
     logger.dbg("*******************************************************")
-    logger.dbg(json.dumps(program, indent=2, sort_keys=True))
+    print(yaml.dump(program))
     logger.dbg("*******************************************************")
     logger.dbg()
