@@ -4,15 +4,14 @@ logger = ppLogger(__name__)
 
 def _acolar(args):
     logger.dbg('cmd acolar:', args)
-    v = args[0]
-    v.acolar(args[1])
+    args[0].acolar(args[1])
 
 def _desacolar(args):
-    logger.dbg('cmd desacolar:', args[0])
+    logger.dbg('cmd desacolar:', args)
     args[0].desacolar()
 
 def _primero(args):
-    logger.dbg('cmd primero:', args[0])
+    logger.dbg('cmd primero:', args)
     return args[0].primero()
 
 cmdmap = {

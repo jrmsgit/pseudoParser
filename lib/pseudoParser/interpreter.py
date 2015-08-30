@@ -49,7 +49,7 @@ def runprog(program):
         elif vartypes.isDeclared(expr):
             # ID expression
             logger.dbg('evalExpr ID:', expr)
-            return vartypes.getVar(expr).getVal()
+            return vartypes.getVar(expr)
 
         else:
             # constant expression
