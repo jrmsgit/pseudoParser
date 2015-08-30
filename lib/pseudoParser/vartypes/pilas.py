@@ -36,5 +36,9 @@ class _pilaVar(baseVar):
         logger.dbg('tope:', r)
         return r
 
+    def getVal(self):
+        if self._val is None: raise ppVarNotInit(__name__, self._ID)
+        else: return self
+
 classmap = {'pila': _pilaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])
