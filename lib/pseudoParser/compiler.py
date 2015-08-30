@@ -84,7 +84,7 @@ def p_expression_2(p):
 def p_constant(p):
     "constant : ICONST"
     logger.dbg("constant <%s>" % p[1])
-    p[0] = p[1]
+    p[0] = ('CONSTEXPR', p[1])
 
 # -- command_statement
 

@@ -38,15 +38,15 @@ def runprog(program):
             for ek in sorted(expr.keys()):
                 evalStat(expr[ek])
 
-        elif vartypes.isDeclared(expr):
+        elif isinstance(expr, tuple) and expr[0] == 'CONSTEXPR':
+            # constant expression
+            logger.dbg('constant expr:', expr)
+            return expr[1]
+
+        else:
             # ID expression
             logger.dbg('ID expr:', expr)
             return vartypes.getVar(expr).getVal()
-
-        else:
-            # constant expression
-            logger.dbg('constant expr:', expr)
-            return expr
 
     def evalCompExpr(expr):
         logger.dbg('evalCompExpr:', expr[0], expr[1], expr[2])
