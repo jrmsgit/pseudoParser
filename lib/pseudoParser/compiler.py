@@ -42,10 +42,10 @@ def p_statement_list(p):
     """statement_list : statement_list statement
                       | statement"""
     logger.dbg('statement_list')
-    if len(p) == 2:
-        p[0] = (p[1],)
-    elif len(p) == 3:
+    if len(p) == 3:
         p[0] = p[1] + (p[2],)
+    elif len(p) == 2:
+        p[0] = (p[1],)
 
 # -- declare_statement
 

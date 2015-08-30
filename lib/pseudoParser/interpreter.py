@@ -5,11 +5,11 @@ from .logger import ppLogger
 logger = ppLogger(__name__)
 
 def runprog(program):
-    print()
-    print("*******************************************************")
-    print(json.dumps(program, indent=2, sort_keys=True))
-    print("*******************************************************")
-    print()
+    logger.dbg()
+    logger.dbg("*******************************************************")
+    logger.dbg(json.dumps(program, indent=2, sort_keys=True))
+    logger.dbg("*******************************************************")
+    logger.dbg()
 
 
     def cmdStat(stat):
@@ -94,8 +94,8 @@ def runprog(program):
         evalStat(stat)
 
 
-    print()
-    print("*******************************************************")
-    print(vartypes.varsTableRepr())
-    print("*******************************************************")
-    print()
+    logger.dbg()
+    logger.dbg("*******************************************************")
+    logger.dbg(vartypes.varsTableRepr())
+    logger.dbg("*******************************************************")
+    logger.dbg()
