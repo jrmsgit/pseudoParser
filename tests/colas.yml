@@ -1,0 +1,5 @@
+- name: cola declare/init
+  code: "cola c1; iniciar(c1);"
+  statements:
+    1: !!python/tuple [DECLARE, cola, c1]
+    2: !!python/tuple [INIT, iniciar, c1]

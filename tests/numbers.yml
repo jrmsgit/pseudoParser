@@ -1,8 +1,33 @@
 - name: int declare/assign
   code: "int d1; d1 = 0;"
   statements:
-    1: !!python/tuple [DECLARE, int, d1]
+    1: !!python/tuple
+      - DECLARE
+      - int
+      - d1
     2: !!python/tuple
-    - ASSIGN
-    - d1
-    - !!python/tuple [CONSTEXPR, 0]
+      - ASSIGN
+      - d1
+      - !!python/tuple
+        - CONSTEXPR
+        - 0
+
+
+- name: int println
+  code: "int d1; d1 = 128; println(d1);"
+  statements:
+    1: !!python/tuple
+      - DECLARE
+      - int
+      - d1
+    2: !!python/tuple
+      - ASSIGN
+      - d1
+      - !!python/tuple
+        - CONSTEXPR
+        - 128
+    3: !!python/tuple
+      - COMMAND
+      - println
+      - !!python/tuple
+        - d1
