@@ -2,8 +2,11 @@ from . import vartypes, commands
 from .logger import ppLogger
 
 logger = ppLogger(__name__)
+curstat = 0
+statements = dict()
 
 def runprog(program):
+    global curstat
 
     def cmdStat(stat):
         logger.dbg('cmdStat:', stat)
@@ -12,8 +15,13 @@ def runprog(program):
             args.append(evalExpr(a))
         return commands.run(stat[1], args)
 
-    def evalStat(stat):
-        logger.dbg('evalStat:', stat)
+    def evalStat(snr, stat):
+        logger.dbg('evalStat:', snr, stat)
+        global curstat
+        curstat = snr
+
+        statements[snr] = stat
+
         if stat[0] == 'DECLARE':
             vartypes.declare(stat[1], stat[2])
 
@@ -36,7 +44,7 @@ def runprog(program):
         if isinstance(expr, dict):
             logger.dbg('dict expr:', expr)
             for ek in sorted(expr.keys()):
-                evalStat(expr[ek])
+                evalStat(ek, expr[ek])
 
         elif isinstance(expr, tuple) and expr[0] == 'CONSTEXPR':
             # constant expression
@@ -82,7 +90,7 @@ def runprog(program):
     for statnr in sorted(program.keys()):
         stat = program[statnr]
         logger.dbg("%d:" % statnr, stat)
-        evalStat(stat)
+        evalStat(statnr, stat)
 
 
     logger.dbg()
@@ -106,3 +114,4 @@ if __name__ == '__main__':
 
     program = parser.parse(code)
     runprog(program)
+    print(statements)

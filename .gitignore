@@ -3,5 +3,5 @@
 __pycache__
 devel.src
 devel.json
-lib/parser.out
-lib/parsetab.py
+parser.out
+parsetab.py
