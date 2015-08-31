@@ -11,16 +11,20 @@ from pseudoParser import interpreter
 
 curtfile = None
 curtname = None
+testscount = 0
+testsfail = 0
 
 def checkStatements(stats):
+    global testsfail
     if interpreter.statements == stats:
-        print("PASS:%s" % curtfile, curtname)
+        print("PASS")
     else:
-        print("FAIL:%s" % curtfile, curtname)
+        print("FAIL")
         print("GOT:")
         print(yaml.dump(interpreter.statements))
         print("EXPECT:")
         print(yaml.dump(stats))
+        testsfail += 1
 
 for testFile in sorted(glob.glob(mydir+"/*.yml")):
     curtfile = os.path.basename(testFile)[:-4]
@@ -29,12 +33,17 @@ for testFile in sorted(glob.glob(mydir+"/*.yml")):
         fh.close()
         for t in tests:
             curtname = t['name']
-            #~ print('TEST:%s' % curtfile, curtname)
+            testscount += 1
+            print('TEST:%s' % curtfile, curtname)
             try:
                 program = compiler.parser.parse(t['code'])
                 interpreter.runprog(program)
             except Exception as e:
                 print('FAIL:%s' % curtfile, curtname)
                 print('EXCEPTION:', e)
+                testsfail += 1
             else:
                 checkStatements(t['statements'])
+            print()
+
+print(testscount, 'tests run,', testsfail, 'failed')
