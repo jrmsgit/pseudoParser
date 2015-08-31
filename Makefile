@@ -17,4 +17,7 @@ devel.src-run:
 run-tests:
 	@python3 -m tests 2>/dev/null
 
-.PHONY: clean devel.src-parse devel.src-compile devel.src-interpreter devel.src-run run-tests
+run-tests-debug:
+	@python3 -m tests
+
+.PHONY: clean devel.src-parse devel.src-compile devel.src-interpreter devel.src-run run-tests run-tests-debug

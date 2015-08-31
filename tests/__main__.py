@@ -34,7 +34,7 @@ for testFile in sorted(glob.glob(mydir+"/*.yml")):
         for t in tests:
             curtname = t['name']
             testscount += 1
-            print('TEST:%s' % curtfile, curtname)
+            print('TEST[%s]:' % curtfile, curtname)
             try:
                 program = compiler.parser.parse(t['code'])
                 interpreter.runprog(program)
