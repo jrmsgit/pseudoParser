@@ -14,8 +14,13 @@ def _primero(args):
     logger.dbg('cmd primero:', args)
     return args[0].primero()
 
+def _empty(args):
+    logger.dbg('cmd empty:', args)
+    return args[0].colaVacia()
+
 cmdmap = {
     'acolar': _acolar,
     'desacolar': _desacolar,
     'primero': _primero,
+    'colavacia': _empty,
 }

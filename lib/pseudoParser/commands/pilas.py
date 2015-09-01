@@ -15,8 +15,13 @@ def _tope(args):
     logger.dbg('cmd tope:', args[0])
     return args[0].tope()
 
+def _empty(args):
+    logger.dbg('cmd empty:', args)
+    return args[0].pilaVacia()
+
 cmdmap = {
     'apilar': _apilar,
     'desapilar': _desapilar,
     'tope': _tope,
+    'pilavacia': _empty,
 }

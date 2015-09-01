@@ -44,6 +44,7 @@ type_specifier : INT
 expression : ID
            | constant
            | command_statement
+           | comparison_expression
 
 constant : ICONST
 
@@ -54,24 +55,15 @@ command : MOSTRAR
         | ACOLAR
         | DESACOLAR
         | PRIMERO
+        | COLAVACIA
         | APILAR
         | DESAPILAR
         | TOPE
+        | PILAVACIA
 
 command_args : ID COMMA ID
              | ID COMMA constant
              | expression
-
-conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE program RBRACE
-
-loop_statement : while_loop_statement
-               | for_loop_statement*
-
-while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE program RBRACE
-
-for_loop_statement* : FOR LPAREN conditional_expression RPAREN LBRACE program RBRACE
-
-conditional_expression : comparison_expression
 
 comparison_expression : expression EQ expression
                       | expression NE expression
@@ -80,5 +72,14 @@ comparison_expression : expression EQ expression
                       | expression GE expression
                       | expression LT expression
                       | expression LE expression
+
+conditional_statement : IF LPAREN expression RPAREN LBRACE program RBRACE
+
+loop_statement : while_loop_statement
+               | for_loop_statement*
+
+while_loop_statement : WHILE LPAREN expression RPAREN LBRACE program RBRACE
+
+for_loop_statement* : FOR LPAREN expression RPAREN LBRACE program RBRACE
 
 * not implemented yet

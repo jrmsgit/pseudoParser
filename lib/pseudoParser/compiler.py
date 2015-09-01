@@ -84,7 +84,8 @@ def p_expression_1(p):
 
 def p_expression_2(p):
     """expression : constant
-                  | command_statement"""
+                  | command_statement
+                  | comparison_expression"""
     logger.dbg('expression:', p[1])
     p[0] = p[1]
 
@@ -110,9 +111,11 @@ def p_command(p):
                | ACOLAR
                | DESACOLAR
                | PRIMERO
+               | COLAVACIA
                | APILAR
                | DESAPILAR
-               | TOPE"""
+               | TOPE
+               | PILAVACIA"""
     logger.dbg("command", p[1])
     p[0] = p[1]
 
@@ -133,20 +136,6 @@ def p_command_args_1(p):
     logger.dbg('command_args:', p[1])
     p[0] = (p[1],)
 
-# -- conditional_statement
-
-def p_conditional_statement(p):
-    "conditional_statement : IF LPAREN conditional_expression RPAREN LBRACE program  RBRACE"
-    logger.dbg('conditional_statement:', p[1].upper(), p[3], p[6])
-    p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
-
-# -- conditional_expression
-
-def p_conditional_expression(p):
-    "conditional_expression : comparison_expression"
-    logger.dbg('conditional_expression:', p[1])
-    p[0] = p[1]
-
 # -- comparison_expression
 
 def p_comparison_expression(p):
@@ -156,8 +145,15 @@ def p_comparison_expression(p):
                              | expression GE expression
                              | expression LT expression
                              | expression LE expression"""
-    logger.dbg('conditional_expression:', p[1], p[2], p[3])
+    logger.dbg('comparison_expression:', p[1], p[2], p[3])
     p[0] = (p[1], p[2], p[3])
+
+# -- conditional_statement
+
+def p_conditional_statement(p):
+    "conditional_statement : IF LPAREN expression RPAREN LBRACE program  RBRACE"
+    logger.dbg('conditional_statement:', p[1].upper(), p[3], p[6])
+    p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
 
 # -- loop_statement
 
@@ -167,7 +163,7 @@ def p_loop_statement(p):
     p[0] = ('LOOPSTAT', p[1])
 
 def p_while_loop_statement(p):
-    "while_loop_statement : WHILE LPAREN conditional_expression RPAREN LBRACE program RBRACE"
+    "while_loop_statement : WHILE LPAREN expression RPAREN LBRACE program RBRACE"
     logger.dbg('while_loop_statement:', p[1].upper(), p[3], p[6])
     p[0] = (p[1].upper(), p[3], p[6])
 

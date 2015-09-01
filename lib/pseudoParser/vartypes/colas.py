@@ -40,5 +40,11 @@ class _colaVar(baseVar):
         if self._val is None: raise ppVarNotInit(__name__, self._ID)
         else: return self
 
+    def colaVacia(self):
+        if self._val is None:
+            raise ppVarNotInit(__name__, self._ID)
+        else:
+            return len(self._val) == 0
+
 classmap = {'cola': _colaVar}
 reserved = tuple([k.upper() for k in classmap.keys()])

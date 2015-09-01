@@ -73,7 +73,8 @@ def runprog(program):
         if expr[1] == '>=': v =  evalExpr(expr[0]) >= evalExpr(expr[2])
         if expr[1] == '<': v =  evalExpr(expr[0]) < evalExpr(expr[2])
         if expr[1] == '<=': v =  evalExpr(expr[0]) <= evalExpr(expr[2])
-        logger.dbg('comp was:', v)
+        else: v = evalExpr(expr)
+        logger.dbg('comparison was:', v)
         return v
 
     def condStat(stat):
