@@ -55,7 +55,7 @@ def p_declare_statement(p):
 # -- init_statement
 
 def p_init_statement(p):
-    "init_statement : INICIAR LPAREN ID RPAREN"
+    "init_statement : INICIALIZAR LPAREN ID RPAREN"
     logger.dbg('init_statement')
     p[0] = ('INIT', p[1], p[3])
 
@@ -105,7 +105,7 @@ def p_command_statement(p):
 # -- command
 
 def p_command(p):
-    """command : PRINTLN
+    """command : MOSTRAR
                | INGRESAR
                | ACOLAR
                | DESACOLAR

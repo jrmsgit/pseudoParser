@@ -33,7 +33,7 @@ empty :
 
 declare_statement : type_specifier ID
 
-init_statement : INICIAR LPAREN ID RPAREN
+init_statement : INICIALIZAR LPAREN ID RPAREN
 
 assign_statement : ID EQUAL expression
 
@@ -49,7 +49,7 @@ constant : ICONST
 
 command_statement : command LPAREN command_args RPAREN
 
-command : PRINTLN
+command : MOSTRAR
         | INGRESAR
         | ACOLAR
         | DESACOLAR

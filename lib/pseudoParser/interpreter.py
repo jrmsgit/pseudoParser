@@ -62,7 +62,7 @@ def runprog(program):
         # ID expression (default)
         else:
             logger.dbg('ID expr:', expr)
-            return vartypes.getVar(expr).getVal()
+            return vartypes.getVar(expr)
 
     def evalCompExpr(expr):
         logger.dbg('evalCompExpr:', expr[0], expr[1], expr[2])

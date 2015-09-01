@@ -8,13 +8,13 @@ def _println(args):
     logger.dbg('cmd println:', args)
     print(*args)
 
-def _ingresar(args):
-    logger.dbg('cmd ingresar')
+def _input(args):
+    logger.dbg('cmd input')
     args[0].setVal(sys.stdin.readline().strip())
 
 _cmdmap = {
-    'println': _println,
-    'ingresar': _ingresar,
+    'mostrar': _println,
+    'ingresar': _input,
 }
 _cmdmap.update(colas.cmdmap)
 _cmdmap.update(pilas.cmdmap)

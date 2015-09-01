@@ -13,8 +13,8 @@
         - 0
 
 
-- name: int println
-  code: "int d1; d1 = 128; println(d1);"
+- name: int mostrar
+  code: "int d1; d1 = 128; mostrar(d1);"
   statements:
     1: !!python/tuple
       - DECLARE
@@ -28,6 +28,6 @@
         - 128
     3: !!python/tuple
       - COMMAND
-      - println
+      - mostrar
       - !!python/tuple
         - d1

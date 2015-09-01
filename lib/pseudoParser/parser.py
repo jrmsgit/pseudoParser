@@ -4,13 +4,12 @@ from .logger import ppLogger
 
 logger = ppLogger(__name__)
 
-reserved = (
-    # init func
-    'INICIAR',
-    # keywords
+keywords = (
     'IF',
     'WHILE',
-) + commands.reserved + numbers.reserved
+    'INICIALIZAR',
+)
+reserved = keywords + commands.reserved + numbers.reserved
 reserved += colas.reserved + pilas.reserved
 
 tokens = reserved + (

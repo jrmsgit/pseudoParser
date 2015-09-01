@@ -1,15 +1,15 @@
 - name: declare and init
-  code: "pila p1; iniciar(p1);"
+  code: "pila p1; inicializar(p1);"
   statements:
     1: !!python/tuple [DECLARE, pila, p1]
-    2: !!python/tuple [INIT, iniciar, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
 
 
 - name: apilar int
-  code: "pila p1; iniciar(p1); apilar(p1, 1);"
+  code: "pila p1; inicializar(p1); apilar(p1, 1);"
   statements:
     1: !!python/tuple [DECLARE, pila, p1]
-    2: !!python/tuple [INIT, iniciar, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
       - COMMAND
       - apilar
@@ -18,11 +18,11 @@
         - !!python/tuple [CONSTEXPR, 1]
 
 
-- name: println
-  code: "pila p1; iniciar(p1); apilar(p1, 1); println(p1);"
+- name: mostrar
+  code: "pila p1; inicializar(p1); apilar(p1, 1); mostrar(p1);"
   statements:
     1: !!python/tuple [DECLARE, pila, p1]
-    2: !!python/tuple [INIT, iniciar, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
       - COMMAND
       - apilar
@@ -31,16 +31,16 @@
         - !!python/tuple [CONSTEXPR, 1]
     4: !!python/tuple
       - COMMAND
-      - println
+      - mostrar
       - !!python/tuple
         - p1
 
 
-- name: println primero
-  code: "pila p1; iniciar(p1); apilar(p1, 3); println(tope(p1));"
+- name: mostrar primero
+  code: "pila p1; inicializar(p1); apilar(p1, 3); mostrar(tope(p1));"
   statements:
     1: !!python/tuple [DECLARE, pila, p1]
-    2: !!python/tuple [INIT, iniciar, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
     - COMMAND
     - apilar
@@ -49,7 +49,7 @@
       - !!python/tuple [CONSTEXPR, 3]
     4: !!python/tuple
     - COMMAND
-    - println
+    - mostrar
     - !!python/tuple
       - !!python/tuple
         - COMMAND
@@ -58,10 +58,10 @@
 
 
 - name: desapilar
-  code: "pila p1; iniciar(p1); apilar(p1, 3); desapilar(p1); println(p1);"
+  code: "pila p1; inicializar(p1); apilar(p1, 3); desapilar(p1); mostrar(p1);"
   statements:
     1: !!python/tuple [DECLARE, pila, p1]
-    2: !!python/tuple [INIT, iniciar, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
     - COMMAND
     - apilar
@@ -74,5 +74,5 @@
     - !!python/tuple [p1]
     5: !!python/tuple
     - COMMAND
-    - println
+    - mostrar
     - !!python/tuple [p1]

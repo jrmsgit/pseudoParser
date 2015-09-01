@@ -1,15 +1,15 @@
 - name: declare and init
-  code: "cola c1; iniciar(c1);"
+  code: "cola c1; inicializar(c1);"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
-    2: !!python/tuple [INIT, iniciar, c1]
+    2: !!python/tuple [INIT, inicializar, c1]
 
 
 - name: acolar int
-  code: "cola c1; iniciar(c1); acolar(c1, 1);"
+  code: "cola c1; inicializar(c1); acolar(c1, 1);"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
-    2: !!python/tuple [INIT, iniciar, c1]
+    2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
       - COMMAND
       - acolar
@@ -18,11 +18,11 @@
         - !!python/tuple [CONSTEXPR, 1]
 
 
-- name: println
-  code: "cola c1; iniciar(c1); acolar(c1, 1); println(c1);"
+- name: mostrar
+  code: "cola c1; inicializar(c1); acolar(c1, 1); mostrar(c1);"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
-    2: !!python/tuple [INIT, iniciar, c1]
+    2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
       - COMMAND
       - acolar
@@ -31,16 +31,16 @@
         - !!python/tuple [CONSTEXPR, 1]
     4: !!python/tuple
       - COMMAND
-      - println
+      - mostrar
       - !!python/tuple
         - c1
 
 
-- name: println primero
-  code: "cola c1; iniciar(c1); acolar(c1, 3); println(primero(c1));"
+- name: mostrar primero
+  code: "cola c1; inicializar(c1); acolar(c1, 3); mostrar(primero(c1));"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
-    2: !!python/tuple [INIT, iniciar, c1]
+    2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
     - COMMAND
     - acolar
@@ -49,7 +49,7 @@
       - !!python/tuple [CONSTEXPR, 3]
     4: !!python/tuple
     - COMMAND
-    - println
+    - mostrar
     - !!python/tuple
       - !!python/tuple
         - COMMAND
@@ -58,10 +58,10 @@
 
 
 - name: desacolar
-  code: "cola c1; iniciar(c1); acolar(c1, 3); desacolar(c1); println(c1);"
+  code: "cola c1; inicializar(c1); acolar(c1, 3); desacolar(c1); mostrar(c1);"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
-    2: !!python/tuple [INIT, iniciar, c1]
+    2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
     - COMMAND
     - acolar
@@ -74,5 +74,5 @@
     - !!python/tuple [c1]
     5: !!python/tuple
     - COMMAND
-    - println
+    - mostrar
     - !!python/tuple [c1]
