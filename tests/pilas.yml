@@ -76,3 +76,48 @@
     - COMMAND
     - mostrar
     - !!python/tuple [p1]
+
+
+- name: pilavacia true
+  code: "pila p1; inicializar(p1); if (pilavacia(p1)) {mostrar(p1);}"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
+    3: &id001 !!python/tuple
+    - COMMAND
+    - mostrar
+    - !!python/tuple [p1]
+    4: !!python/tuple
+    - CONDSTAT
+    - !!python/tuple
+      - IF
+      - !!python/tuple
+        - COMMAND
+        - pilavacia
+        - !!python/tuple [p1]
+      - 3: *id001
+
+
+- name: pilavacia false
+  code: "pila p1; inicializar(p1); apilar(p1, 1); if (pilavacia(p1)) {mostrar(p1);}"
+  statements:
+    1: !!python/tuple [DECLARE, pila, p1]
+    2: !!python/tuple [INIT, inicializar, p1]
+    3: !!python/tuple
+    - COMMAND
+    - apilar
+    - !!python/tuple
+      - p1
+      - !!python/tuple [CONSTEXPR, 1]
+    5: !!python/tuple
+    - CONDSTAT
+    - !!python/tuple
+      - IF
+      - !!python/tuple
+        - COMMAND
+        - pilavacia
+        - !!python/tuple [p1]
+      - 4: !!python/tuple
+        - COMMAND
+        - mostrar
+        - !!python/tuple [p1]
