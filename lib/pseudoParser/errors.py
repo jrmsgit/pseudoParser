@@ -37,7 +37,7 @@ class ppVarDeclareDone(ppError):
 
 class ppVarNotDeclared(ppError):
     def __init__(self, caller, ID):
-        super(ppVarNotDeclared, self).__init__(caller, "var not declared at '%s'" % ID)
+        super(ppVarNotDeclared, self).__init__(caller, "var not declared at '%s'" % str(ID))
 
 
 class ppVarNotInit(ppError):

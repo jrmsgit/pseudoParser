@@ -68,11 +68,11 @@ def runprog(program):
         logger.dbg('evalCompExpr:', expr[0], expr[1], expr[2])
         v = None
         if expr[1] == '==': v =  evalExpr(expr[0]) == evalExpr(expr[2])
-        if expr[1] == '!=': v =  evalExpr(expr[0]) != evalExpr(expr[2])
-        if expr[1] == '>': v =  evalExpr(expr[0]) > evalExpr(expr[2])
-        if expr[1] == '>=': v =  evalExpr(expr[0]) >= evalExpr(expr[2])
-        if expr[1] == '<': v =  evalExpr(expr[0]) < evalExpr(expr[2])
-        if expr[1] == '<=': v =  evalExpr(expr[0]) <= evalExpr(expr[2])
+        elif expr[1] == '!=': v =  evalExpr(expr[0]) != evalExpr(expr[2])
+        elif expr[1] == '>': v =  evalExpr(expr[0]) > evalExpr(expr[2])
+        elif expr[1] == '>=': v =  evalExpr(expr[0]) >= evalExpr(expr[2])
+        elif expr[1] == '<': v =  evalExpr(expr[0]) < evalExpr(expr[2])
+        elif expr[1] == '<=': v =  evalExpr(expr[0]) <= evalExpr(expr[2])
         else: v = evalExpr(expr)
         logger.dbg('comparison was:', v)
         return v
