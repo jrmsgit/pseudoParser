@@ -1,11 +1,15 @@
 from ..logger import ppLogger
+from ..vartypes.base import baseVar
 
 logger = ppLogger(__name__)
 
 def _apilar(args):
     logger.dbg('cmd apilar:', args)
     v = args[0]
-    v.apilar(args[1])
+    if isinstance(args[1], baseVar):
+        v.apilar(args[1].getVal())
+    else:
+        v.apilar(args[1])
 
 def _desapilar(args):
     logger.dbg('cmd desapilar:', args[0])
@@ -13,7 +17,11 @@ def _desapilar(args):
 
 def _tope(args):
     logger.dbg('cmd tope:', args[0])
-    return args[0].tope()
+    t = args[0].tope()
+    if isinstance(t, baseVar):
+        return t.getVal()
+    else:
+        return t
 
 def _empty(args):
     logger.dbg('cmd empty:', args)

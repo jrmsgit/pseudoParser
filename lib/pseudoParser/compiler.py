@@ -80,7 +80,7 @@ def p_type_specifier(p):
 def p_expression_1(p):
     "expression : ID"
     logger.dbg('expression:', p[1])
-    p[0] = p[1]
+    p[0] = ('ID', p[1])
 
 def p_expression_2(p):
     """expression : constant
@@ -94,7 +94,7 @@ def p_expression_2(p):
 def p_constant(p):
     "constant : ICONST"
     logger.dbg("constant <%s>" % p[1])
-    p[0] = ('CONSTEXPR', p[1])
+    p[0] = ('CONSTANT', p[1])
 
 # -- command_statement
 
@@ -121,17 +121,17 @@ def p_command(p):
 
 # -- command_args
 
-def p_command_args_2(p):
+def p_command_args_1(p):
     "command_args : ID COMMA ID"
-    logger.dbg('command_args:', p[1], p[3])
-    p[0] = (p[1], p[3])
+    logger.dbg('command_args:', ('ID', p[1]), ('ID', p[3]))
+    p[0] = (('ID', p[1]), ('ID', p[3]))
+
+def p_command_args_2(p):
+    "command_args : ID COMMA constant"
+    logger.dbg('command_args:', ('ID', p[1]), p[3])
+    p[0] = (('ID', p[1]), p[3])
 
 def p_command_args_3(p):
-    "command_args : ID COMMA constant"
-    logger.dbg('command_args:', p[1], p[3])
-    p[0] = (p[1], p[3])
-
-def p_command_args_1(p):
     "command_args : expression"
     logger.dbg('command_args:', p[1])
     p[0] = (p[1],)
@@ -146,21 +146,21 @@ def p_comparison_expression(p):
                              | expression LT expression
                              | expression LE expression"""
     logger.dbg('comparison_expression:', p[1], p[2], p[3])
-    p[0] = (p[1], p[2], p[3])
+    p[0] = ('COMPARISON', p[1], p[2], p[3])
 
 # -- conditional_statement
 
 def p_conditional_statement(p):
     "conditional_statement : IF LPAREN expression RPAREN LBRACE program  RBRACE"
     logger.dbg('conditional_statement:', p[1].upper(), p[3], p[6])
-    p[0] = ('CONDSTAT', (p[1].upper(), p[3], p[6]))
+    p[0] = ('CONDITIONAL', p[1].upper(), p[3], p[6])
 
 # -- loop_statement
 
 def p_loop_statement(p):
     "loop_statement : while_loop_statement"
     logger.dbg('loop_statement:', p[1])
-    p[0] = ('LOOPSTAT', p[1])
+    p[0] = ('LOOP', p[1])
 
 def p_while_loop_statement(p):
     "while_loop_statement : WHILE LPAREN expression RPAREN LBRACE program RBRACE"

@@ -18,6 +18,78 @@ def runprog(program):
             args.append(evalExpr(a))
         return commands.run(stat[1], args)
 
+    def evalExpr(expr):
+        # statements block / program
+        if isinstance(expr, dict):
+            logger.dbg('dict expr:', expr)
+            for ek in sorted(expr.keys()):
+                evalStat(ek, expr[ek])
+
+        # statement
+        elif isinstance(expr, tuple):
+            logger.dbg('tuple expr:', expr)
+
+            # ID
+            if expr[0] == 'ID':
+                return vartypes.getVar(expr[1])
+
+            # constant
+            elif expr[0] == 'CONSTANT':
+                return expr[1]
+
+            # command
+            elif expr[0] == 'COMMAND':
+                return cmdStat(expr)
+
+            # comparison
+            elif expr[0] == 'COMPARISON':
+                return evalCompExpr(expr)
+
+            # invalid expression
+            else:
+                raise RuntimeError('invalid tuple expression: %s' % str(expr))
+
+        # invalid expression
+        else:
+            raise RuntimeError('invalid dict expression: %s' % str(expr))
+
+    def evalCompExpr(expr):
+        logger.dbg('evalCompExpr:', expr)
+        v = None
+        l = evalExpr(expr[1])
+        r = evalExpr(expr[3])
+        if isinstance(l, vartypes.base.baseVar): l = l.getVal()
+        if isinstance(r, vartypes.base.baseVar): r = r.getVal()
+        if expr[2] == '==': v = l == r
+        elif expr[2] == '!=': v = l != r
+        elif expr[2] == '>': v = l > r
+        elif expr[2] == '>=': v = l >= r
+        elif expr[2] == '<': v = l < r
+        elif expr[2] == '<=': v = l <= r
+        else: raise RuntimeError('invalid comparison expression: %s' % str(expr))
+        logger.dbg('comparison was:', v)
+        return v
+
+    def condStat(stat):
+        logger.dbg('condStat:', stat)
+        cond = stat[1]
+        if cond == 'IF':
+            if evalExpr(stat[2]): return evalExpr(stat[3])
+            else: return False
+        else:
+            raise RuntimeError('invalid conditional statement: %s' % str(stat))
+
+    def loopStat(stat):
+        logger.dbg('loopStat:', stat)
+        loop = stat[1][0]
+        if loop == 'WHILE':
+            comp = stat[1][1]
+            expr = stat[1][2]
+            # TODO: infite loop limit?
+            while evalExpr(comp): evalExpr(expr)
+        else:
+            raise RuntimeError('invalid loop statement: %s' % str(stat))
+
     def evalStat(snr, stat):
         logger.dbg('evalStat:', snr, stat)
         global curstat, statements
@@ -37,63 +109,14 @@ def runprog(program):
         elif stat[0] == 'COMMAND':
             cmdStat(stat)
 
-        elif stat[0] == 'CONDSTAT':
+        elif stat[0] == 'CONDITIONAL':
             condStat(stat)
 
-        elif stat[0] == 'LOOPSTAT':
+        elif stat[0] == 'LOOP':
             loopStat(stat)
 
-    def evalExpr(expr):
-        # statements block / program
-        if isinstance(expr, dict):
-            logger.dbg('dict expr:', expr)
-            for ek in sorted(expr.keys()):
-                evalStat(ek, expr[ek])
-
-        # constant expression
-        elif isinstance(expr, tuple) and expr[0] == 'CONSTEXPR':
-            logger.dbg('constant expr:', expr)
-            return expr[1]
-
-        # command statement
-        elif isinstance(expr, tuple) and expr[0] == 'COMMAND':
-            return cmdStat(expr)
-
-        # ID expression (default)
         else:
-            logger.dbg('ID expr:', expr)
-            return vartypes.getVar(expr)
-
-    def evalCompExpr(expr):
-        logger.dbg('evalCompExpr:', expr[0], expr[1], expr[2])
-        v = None
-        if expr[1] == '==': v =  evalExpr(expr[0]) == evalExpr(expr[2])
-        elif expr[1] == '!=': v =  evalExpr(expr[0]) != evalExpr(expr[2])
-        elif expr[1] == '>': v =  evalExpr(expr[0]) > evalExpr(expr[2])
-        elif expr[1] == '>=': v =  evalExpr(expr[0]) >= evalExpr(expr[2])
-        elif expr[1] == '<': v =  evalExpr(expr[0]) < evalExpr(expr[2])
-        elif expr[1] == '<=': v =  evalExpr(expr[0]) <= evalExpr(expr[2])
-        else: v = evalExpr(expr)
-        logger.dbg('comparison was:', v)
-        return v
-
-    def condStat(stat):
-        logger.dbg('condStat:', stat[1][0], stat[1][1], stat[1][2])
-        cond = stat[1][0]
-        if cond == 'IF':
-            comp = stat[1][1]
-            expr = stat[1][2]
-            if evalCompExpr(comp): return evalExpr(expr)
-            else: return False
-
-    def loopStat(stat):
-        logger.dbg('loopStat:', stat)
-        loop = stat[1][0]
-        if loop == 'WHILE':
-            comp = stat[1][1]
-            expr = stat[1][2]
-            # TODO: infite loop limit?
-            while evalCompExpr(comp): evalExpr(expr)
+            raise RuntimeError('invalid statement: %s' % str(stat))
 
     # -- main
     for statnr in sorted(program.keys()):

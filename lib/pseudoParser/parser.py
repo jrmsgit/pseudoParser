@@ -66,6 +66,7 @@ def t_NEWLINE(t):
     r'\n+'
     logger.dbg('NEWLINE: line ', t.lexer.lineno)
     t.lexer.lineno += t.value.count('\n')
+    # ignored
 
 def t_ICONST(t):
     r'\d+'
@@ -77,11 +78,13 @@ def t_COMMENT(t):
     r'/\*(.|\n)*?\*/'
     logger.dbg('COMMENT: line ', t.lexer.lineno)
     t.lexer.lineno += t.value.count('\n')
+    # ignored
 
 def t_CPPCOMMENT(t):
     r'//.*\n'
     logger.dbg('CPPCOMMENT: line ', t.lexer.lineno)
     t.lexer.lineno += t.value.count('\n')
+    # ignored
 
 def t_error(t):
     logger.dbg('t_error')
