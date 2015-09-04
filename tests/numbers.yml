@@ -1,33 +1,23 @@
 - name: int declare and init
   code: "int d1; d1 = 0;"
   statements:
-    1: !!python/tuple
-      - DECLARE
-      - int
-      - d1
+    1: !!python/tuple [DECLARE, int, d1]
     2: !!python/tuple
-      - ASSIGN
-      - d1
-      - !!python/tuple
-        - CONSTEXPR
-        - 0
+    - ASSIGN
+    - d1
+    - !!python/tuple [CONSTANT, 0]
 
 
 - name: int mostrar
   code: "int d1; d1 = 128; mostrar(d1);"
   statements:
-    1: !!python/tuple
-      - DECLARE
-      - int
-      - d1
+    1: !!python/tuple [DECLARE, int, d1]
     2: !!python/tuple
-      - ASSIGN
-      - d1
-      - !!python/tuple
-        - CONSTEXPR
-        - 128
+    - ASSIGN
+    - d1
+    - !!python/tuple [CONSTANT, 128]
     3: !!python/tuple
-      - COMMAND
-      - mostrar
-      - !!python/tuple
-        - d1
+    - COMMAND
+    - mostrar
+    - !!python/tuple
+      - !!python/tuple [ID, d1]

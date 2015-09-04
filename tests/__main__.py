@@ -22,8 +22,8 @@ def checkStatements(stats):
         print("FAIL")
         print("GOT:")
         print(yaml.dump(interpreter.statements))
-        print("EXPECT:")
-        print(yaml.dump(stats))
+        #~ print("EXPECT:")
+        #~ print(yaml.dump(stats))
         testsfail += 1
 
 for testFile in sorted(glob.glob(mydir+"/*.yml")):

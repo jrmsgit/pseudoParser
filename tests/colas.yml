@@ -11,11 +11,11 @@
     1: !!python/tuple [DECLARE, cola, c1]
     2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
-      - COMMAND
-      - acolar
-      - !!python/tuple
-        - c1
-        - !!python/tuple [CONSTEXPR, 1]
+    - COMMAND
+    - acolar
+    - !!python/tuple
+      - !!python/tuple [ID, c1]
+      - !!python/tuple [CONSTANT, 1]
 
 
 - name: mostrar
@@ -24,16 +24,16 @@
     1: !!python/tuple [DECLARE, cola, c1]
     2: !!python/tuple [INIT, inicializar, c1]
     3: !!python/tuple
-      - COMMAND
-      - acolar
-      - !!python/tuple
-        - c1
-        - !!python/tuple [CONSTEXPR, 1]
+    - COMMAND
+    - acolar
+    - !!python/tuple
+      - !!python/tuple [ID, c1]
+      - !!python/tuple [CONSTANT, 1]
     4: !!python/tuple
-      - COMMAND
-      - mostrar
-      - !!python/tuple
-        - c1
+    - COMMAND
+    - mostrar
+    - !!python/tuple
+      - !!python/tuple [ID, c1]
 
 
 - name: mostrar primero
@@ -45,8 +45,8 @@
     - COMMAND
     - acolar
     - !!python/tuple
-      - c1
-      - !!python/tuple [CONSTEXPR, 3]
+      - !!python/tuple [ID, c1]
+      - !!python/tuple [CONSTANT, 3]
     4: !!python/tuple
     - COMMAND
     - mostrar
@@ -54,7 +54,8 @@
       - !!python/tuple
         - COMMAND
         - primero
-        - !!python/tuple [c1]
+        - !!python/tuple
+          - !!python/tuple [ID, c1]
 
 
 - name: desacolar
@@ -66,16 +67,18 @@
     - COMMAND
     - acolar
     - !!python/tuple
-      - c1
-      - !!python/tuple [CONSTEXPR, 3]
+      - !!python/tuple [ID, c1]
+      - !!python/tuple [CONSTANT, 3]
     4: !!python/tuple
     - COMMAND
     - desacolar
-    - !!python/tuple [c1]
+    - !!python/tuple
+      - !!python/tuple [ID, c1]
     5: !!python/tuple
     - COMMAND
     - mostrar
-    - !!python/tuple [c1]
+    - !!python/tuple
+      - !!python/tuple [ID, c1]
 
 
 - name: colavacia true
@@ -86,20 +89,21 @@
     3: &id001 !!python/tuple
     - COMMAND
     - mostrar
-    - !!python/tuple [c1]
-    4: !!python/tuple
-    - CONDSTAT
     - !!python/tuple
-      - IF
+      - !!python/tuple [ID, c1]
+    4: !!python/tuple
+    - CONDITIONAL
+    - IF
+    - !!python/tuple
+      - COMMAND
+      - colavacia
       - !!python/tuple
-        - COMMAND
-        - colavacia
-        - !!python/tuple [c1]
-      - 3: *id001
+        - !!python/tuple [ID, c1]
+    - 3: *id001
 
 
 - name: colavacia false
-  code: "cola c1; inicializar(c1); acolar(c1, 1); if (colavacia(c1)) {mostrar(c1);}"
+  code: "cola c1; inicializar(c1); acolar(c1, 1); mostrar(c1); if (colavacia(c1)) {mostrar(c1);}"
   statements:
     1: !!python/tuple [DECLARE, cola, c1]
     2: !!python/tuple [INIT, inicializar, c1]
@@ -107,17 +111,23 @@
     - COMMAND
     - acolar
     - !!python/tuple
-      - c1
-      - !!python/tuple [CONSTEXPR, 1]
-    5: !!python/tuple
-    - CONDSTAT
+      - !!python/tuple [ID, c1]
+      - !!python/tuple [CONSTANT, 1]
+    4: !!python/tuple
+    - COMMAND
+    - mostrar
     - !!python/tuple
-      - IF
+      - !!python/tuple [ID, c1]
+    6: !!python/tuple
+    - CONDITIONAL
+    - IF
+    - !!python/tuple
+      - COMMAND
+      - colavacia
       - !!python/tuple
-        - COMMAND
-        - colavacia
-        - !!python/tuple [c1]
-      - 4: !!python/tuple
-        - COMMAND
-        - mostrar
-        - !!python/tuple [c1]
+        - !!python/tuple [ID, c1]
+    - 5: !!python/tuple
+      - COMMAND
+      - mostrar
+      - !!python/tuple
+        - !!python/tuple [ID, c1]

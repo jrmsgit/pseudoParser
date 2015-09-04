@@ -11,11 +11,11 @@
     1: !!python/tuple [DECLARE, pila, p1]
     2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
-      - COMMAND
-      - apilar
-      - !!python/tuple
-        - p1
-        - !!python/tuple [CONSTEXPR, 1]
+    - COMMAND
+    - apilar
+    - !!python/tuple
+      - !!python/tuple [ID, p1]
+      - !!python/tuple [CONSTANT, 1]
 
 
 - name: mostrar
@@ -24,16 +24,16 @@
     1: !!python/tuple [DECLARE, pila, p1]
     2: !!python/tuple [INIT, inicializar, p1]
     3: !!python/tuple
-      - COMMAND
-      - apilar
-      - !!python/tuple
-        - p1
-        - !!python/tuple [CONSTEXPR, 1]
+    - COMMAND
+    - apilar
+    - !!python/tuple
+      - !!python/tuple [ID, p1]
+      - !!python/tuple [CONSTANT, 1]
     4: !!python/tuple
-      - COMMAND
-      - mostrar
-      - !!python/tuple
-        - p1
+    - COMMAND
+    - mostrar
+    - !!python/tuple
+      - !!python/tuple [ID, p1]
 
 
 - name: mostrar primero
@@ -45,8 +45,8 @@
     - COMMAND
     - apilar
     - !!python/tuple
-      - p1
-      - !!python/tuple [CONSTEXPR, 3]
+      - !!python/tuple [ID, p1]
+      - !!python/tuple [CONSTANT, 3]
     4: !!python/tuple
     - COMMAND
     - mostrar
@@ -54,7 +54,8 @@
       - !!python/tuple
         - COMMAND
         - tope
-        - !!python/tuple [p1]
+        - !!python/tuple
+          - !!python/tuple [ID, p1]
 
 
 - name: desapilar
@@ -66,16 +67,18 @@
     - COMMAND
     - apilar
     - !!python/tuple
-      - p1
-      - !!python/tuple [CONSTEXPR, 3]
+      - !!python/tuple [ID, p1]
+      - !!python/tuple [CONSTANT, 3]
     4: !!python/tuple
     - COMMAND
     - desapilar
-    - !!python/tuple [p1]
+    - !!python/tuple
+      - !!python/tuple [ID, p1]
     5: !!python/tuple
     - COMMAND
     - mostrar
-    - !!python/tuple [p1]
+    - !!python/tuple
+      - !!python/tuple [ID, p1]
 
 
 - name: pilavacia true
@@ -86,16 +89,17 @@
     3: &id001 !!python/tuple
     - COMMAND
     - mostrar
-    - !!python/tuple [p1]
-    4: !!python/tuple
-    - CONDSTAT
     - !!python/tuple
-      - IF
+      - !!python/tuple [ID, p1]
+    4: !!python/tuple
+    - CONDITIONAL
+    - IF
+    - !!python/tuple
+      - COMMAND
+      - pilavacia
       - !!python/tuple
-        - COMMAND
-        - pilavacia
-        - !!python/tuple [p1]
-      - 3: *id001
+        - !!python/tuple [ID, p1]
+    - 3: *id001
 
 
 - name: pilavacia false
@@ -107,17 +111,18 @@
     - COMMAND
     - apilar
     - !!python/tuple
-      - p1
-      - !!python/tuple [CONSTEXPR, 1]
+      - !!python/tuple [ID, p1]
+      - !!python/tuple [CONSTANT, 1]
     5: !!python/tuple
-    - CONDSTAT
+    - CONDITIONAL
+    - IF
     - !!python/tuple
-      - IF
+      - COMMAND
+      - pilavacia
       - !!python/tuple
-        - COMMAND
-        - pilavacia
-        - !!python/tuple [p1]
-      - 4: !!python/tuple
-        - COMMAND
-        - mostrar
-        - !!python/tuple [p1]
+        - !!python/tuple [ID, p1]
+    - 4: !!python/tuple
+      - COMMAND
+      - mostrar
+      - !!python/tuple
+        - !!python/tuple [ID, p1]

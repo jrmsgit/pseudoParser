@@ -5,38 +5,46 @@
     2: !!python/tuple
     - ASSIGN
     - d1
-    - !!python/tuple [CONSTEXPR, 1]
-    4: !!python/tuple
-    - CONDSTAT
+    - !!python/tuple [CONSTANT, 1]
+    3: &id001 !!python/tuple
+    - COMMAND
+    - mostrar
     - !!python/tuple
-      - IF
-      - !!python/tuple
-        - d1
-        - ==
-        - !!python/tuple [CONSTEXPR, 1]
-      - 3: !!python/tuple
-        - COMMAND
-        - mostrar
-        - !!python/tuple [d1]
+      - !!python/tuple [ID, d1]
+    4: !!python/tuple
+    - CONDITIONAL
+    - IF
+    - !!python/tuple
+      - COMPARISON
+      - !!python/tuple [ID, d1]
+      - ==
+      - !!python/tuple [CONSTANT, 1]
+    - 3: *id001
 
 
 - name: if statement false
-  code: "int d1; d1 = 1; if (d1 == 0) { mostrar(d1); }"
+  code: "int d1; d1 = 0; mostrar(d1); if (d1 == 1) { mostrar(d1); }"
   statements:
     1: !!python/tuple [DECLARE, int, d1]
     2: !!python/tuple
     - ASSIGN
     - d1
-    - !!python/tuple [CONSTEXPR, 1]
-    4: !!python/tuple
-    - CONDSTAT
+    - !!python/tuple [CONSTANT, 0]
+    3: !!python/tuple
+    - COMMAND
+    - mostrar
     - !!python/tuple
-      - IF
+      - !!python/tuple [ID, d1]
+    5: !!python/tuple
+    - CONDITIONAL
+    - IF
+    - !!python/tuple
+      - COMPARISON
+      - !!python/tuple [ID, d1]
+      - ==
+      - !!python/tuple [CONSTANT, 1]
+    - 4: !!python/tuple
+      - COMMAND
+      - mostrar
       - !!python/tuple
-        - d1
-        - ==
-        - !!python/tuple [CONSTEXPR, 0]
-      - 3: !!python/tuple
-        - COMMAND
-        - mostrar
-        - !!python/tuple [d1]
+        - !!python/tuple [ID, d1]

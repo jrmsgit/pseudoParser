@@ -11,20 +11,24 @@ while (d1 == 1)
     2: !!python/tuple
     - ASSIGN
     - d1
-    - !!python/tuple [CONSTEXPR, 1]
+    - !!python/tuple [CONSTANT, 1]
+    3: &id001 !!python/tuple
+    - COMMAND
+    - mostrar
+    - !!python/tuple
+      - !!python/tuple [ID, d1]
+    4: &id002 !!python/tuple
+    - ASSIGN
+    - d1
+    - !!python/tuple [CONSTANT, 2]
     5: !!python/tuple
-    - LOOPSTAT
+    - LOOP
     - !!python/tuple
       - WHILE
       - !!python/tuple
-        - d1
+        - COMPARISON
+        - !!python/tuple [ID, d1]
         - ==
-        - !!python/tuple [CONSTEXPR, 1]
-      - 3: !!python/tuple
-        - COMMAND
-        - mostrar
-        - !!python/tuple [d1]
-        4: !!python/tuple
-        - ASSIGN
-        - d1
-        - !!python/tuple [CONSTEXPR, 2]
+        - !!python/tuple [CONSTANT, 1]
+      - 3: *id001
+        4: *id002
