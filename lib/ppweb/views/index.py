@@ -2,14 +2,14 @@ from .. import wapp
 
 @wapp.get('/')
 def index():
-    return wapp.render()
+    return wapp.Render()
 
 
 @wapp.get('/static/<filename:path>')
-def send_file(filename):
-    return wapp.send_file(filename)
+def sendFile(filename):
+    return wapp.SendFile(filename)
 
 
 @wapp.post('/exec/')
 def codeExec():
-    return wapp.render()
+    return wapp.Render()

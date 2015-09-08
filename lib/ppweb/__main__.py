@@ -1,2 +1,2 @@
 from . import wapp
-wapp.run()
+wapp.Run()

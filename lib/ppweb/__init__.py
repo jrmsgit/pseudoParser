@@ -9,22 +9,23 @@ class ppWebApp(Bottle):
     _tmpl = None
 
     def __init__(self):
-        self.template('index.html')
+        self.Template('index.html')
         return super(ppWebApp, self).__init__()
 
-    def template(self, tname):
+    def Template(self, tname):
         self._tmpl = os.path.join('ppweb', 'templates', tname)
 
-    def run(self):
+    def Run(self):
         return super(ppWebApp, self).run(host='jrmsdev.local', debug=_DEBUG)
 
-    def render(self):
+    def Render(self):
         return template("% include('{}')".format(self._tmpl))
 
-    def send_file(self, filename):
+    def SendFile(self, filename):
         return static_file(filename, root=os.path.join(_CODEDIR, 'static'))
 
 
+# create wapp
 wapp = ppWebApp()
 
 # load views / routes
