@@ -1,5 +1,5 @@
 import os.path
-from bottle import Bottle, template, static_file
+from bottle import Bottle, template, static_file, request
 
 _DEBUG = True
 _CODEDIR = os.path.dirname(__file__)
@@ -7,8 +7,10 @@ _CODEDIR = os.path.dirname(__file__)
 
 class ppWebApp(Bottle):
     _tmpl = None
+    Req = None
 
     def __init__(self):
+        self.Req = request
         self.Template('index.html')
         return super(ppWebApp, self).__init__()
 
