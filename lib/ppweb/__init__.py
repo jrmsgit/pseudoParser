@@ -46,12 +46,17 @@ class wappSession(object):
         self.ID = cookie['sess']
         self.since = cookie['since']
         self.until = cookie['until']
+        self._initFS()
 
     def sinceTime(self):
         return time.strftime(_TIME_FMT, time.localtime(self.since))
 
     def untilTime(self):
         return time.strftime(_TIME_FMT, time.localtime(self.until))
+
+    def _initFS(self):
+        # FIXME!!
+        pass
 
 
 class ppWebApp(Bottle):

@@ -29,16 +29,24 @@ input {
 }
 
 a {
-    padding: 0.5% 2%;
-    text-decoration: none;
     color: #0d0;
-    background-color: #000;
+}
+
+a:hover {
+    color: #0d0;
 }
 
 #wappNavBar {
     border-bottom: 1px solid #666;
     margin-bottom: 1%;
     margin-top: -1%;
+}
+
+#wappNavBar a {
+    padding: 0.5% 2%;
+    text-decoration: none;
+    color: #0d0;
+    background-color: #000;
 }
 
 #wappMessages p {
