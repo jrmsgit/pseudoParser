@@ -25,9 +25,11 @@ class wappLogger(object):
 
 class wappMessages(object):
     _msgs = None
+    _sess = None
 
-    def __init__(self):
+    def __init__(self, sess):
         self._msgs = dict()
+        self._sess = sess
 
     def error(self, msg):
         self._msgs[time.time()] = ('ERROR', msg)
@@ -67,6 +69,21 @@ class wappSession(object):
         os.makedirs(self.dirPath, mode=0o770, exist_ok=True)
         self.Log.dbg('session dir:', self.dirPath)
 
+    def writeFile(self, fname, content):
+        fpath = os.path.join(self.dirPath, fname)
+        with open(fpath, 'w') as fh:
+            fh.truncate()
+            fh.write(content)
+            fh.close()
+
+    def readFile(self, fname):
+        fpath = os.path.join(self.dirPath, fname)
+        with open(fpath, 'r') as fh:
+            fh.truncate()
+            content = fh.read()
+            fh.close()
+            return content
+
 
 class ppWebApp(Bottle):
     _tmpl = None
@@ -81,7 +98,6 @@ class ppWebApp(Bottle):
         self.Log = wappLogger()
         self.Log.dbg('init')
         self.Req = request
-        self.Msg = wappMessages()
         self.Resp = response
         return super(ppWebApp, self).__init__()
 
@@ -120,6 +136,7 @@ class ppWebApp(Bottle):
     def _loadSess(self, cookie):
         self.Log.dbg('Session:', cookie['sess'])
         self.Sess = wappSession(cookie)
+        self.Msg = wappMessages(self.Sess)
 
     def Render(self, tmplData=None, tmpl=None):
         self.Log.dbg('Render')
@@ -144,11 +161,7 @@ class ppWebApp(Bottle):
     def CodeSave(self, code):
         self.Log.dbg('CodeSave')
         fname = 'editor.src'
-        fpath = os.path.join(self.Sess.dirPath, fname)
-        with open(fpath, 'w') as fh:
-            fh.truncate()
-            fh.write(code)
-            fh.close()
+        self.Sess.writeFile(fname, code)
         return static_file(fname, root=self.Sess.dirPath, download=fname)
 
     def Redirect(self, location):
