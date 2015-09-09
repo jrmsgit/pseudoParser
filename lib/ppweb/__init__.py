@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import time
 import os.path
 import hashlib
@@ -28,20 +29,25 @@ class wappMessages(object):
     _sess = None
 
     def __init__(self, sess):
-        self._msgs = dict()
         self._sess = sess
+        self._msgs = sess.jsonRead('messages')
+        if self._msgs is None:
+            self._msgs = dict()
 
     def error(self, msg):
         self._msgs[time.time()] = ('ERROR', msg)
+        self._sess.jsonWrite('messages', self._msgs)
 
     def info(self, msg):
         self._msgs[time.time()] = ('INFO', msg)
+        self._sess.jsonWrite('messages', self._msgs)
 
     def getAll(self):
         m = list()
         for mk in sorted(self._msgs.keys()):
             m.append(self._msgs[mk])
         self._msgs = dict()
+        self._sess.jsonWrite('messages', self._msgs)
         return m
 
 
@@ -70,6 +76,7 @@ class wappSession(object):
         self.Log.dbg('session dir:', self.dirPath)
 
     def writeFile(self, fname, content):
+        self.Log.dbg('session writeFile:', fname)
         fpath = os.path.join(self.dirPath, fname)
         with open(fpath, 'w') as fh:
             fh.truncate()
@@ -77,12 +84,24 @@ class wappSession(object):
             fh.close()
 
     def readFile(self, fname):
+        self.Log.dbg('session readFile:', fname)
         fpath = os.path.join(self.dirPath, fname)
         with open(fpath, 'r') as fh:
             fh.truncate()
             content = fh.read()
             fh.close()
             return content
+
+    def jsonRead(self, fname):
+        try:
+            content = self.readFile(fname + '.json')
+            return json.loads(content)
+        except:
+            return None
+
+    def jsonWrite(self, fname, data):
+        content = json.dumps(data)
+        self.writeFile(fname + '.json', content)
 
 
 class ppWebApp(Bottle):
