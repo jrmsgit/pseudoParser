@@ -8,6 +8,8 @@ from bottle import Bottle, template, static_file, request, response
 _DEBUG = True
 _CODEDIR = os.path.dirname(__file__)
 _SECRET = 'SUPERSECRETPASSPHRASE'
+_COOKIE_TTL = 3600 * 24 * 7
+_TIME_FMT = '%d %b %Y %H:%M:%S %Z'
 
 
 class wappLogger(object):
@@ -35,12 +37,30 @@ class wappMessages(object):
         return m
 
 
+class wappSession(object):
+    ID = None
+    since = None
+    until = None
+
+    def __init__(self, cookie):
+        self.ID = cookie['sess']
+        self.since = cookie['since']
+        self.until = cookie['until']
+
+    def sinceTime(self):
+        return time.strftime(_TIME_FMT, time.localtime(self.since))
+
+    def untilTime(self):
+        return time.strftime(_TIME_FMT, time.localtime(self.until))
+
+
 class ppWebApp(Bottle):
     _tmpl = None
     Req = None
     Log = None
     Msg = None
     Resp = None
+    Sess = None
 
     def __init__(self):
         self.Log = wappLogger()
@@ -60,21 +80,40 @@ class ppWebApp(Bottle):
     def Start(self, template='index.html'):
         self.Log.dbg('Start')
         self._setTemplate(template)
-        self._loadCookie()
+        cookie = self._loadCookie()
+        self._loadSess(cookie)
 
     def _loadCookie(self):
         cn = hashlib.md5(str(_SECRET+'ppweb').encode()).hexdigest()
         self.Log.dbg('cookie name:', cn)
         c = self.Req.get_cookie(cn, secret=_SECRET)
         self.Log.dbg('cookie:', c)
-        if not c:
-            self.Resp.set_cookie(cn, time.time(), secret=_SECRET)
+        if c:
+            return c
+        else:
+            tinit = time.time()
+            cd = {
+                'since': tinit,
+                'sess': hashlib.md5(str(time.time()).encode()).hexdigest(),
+                'until': tinit + _COOKIE_TTL,
+            }
+            self.Resp.set_cookie(cn, cd, secret=_SECRET, max_age=_COOKIE_TTL)
+            self.Log.dbg('cookie set:', cd)
+            return cd
 
-    def Render(self):
+    def _loadSess(self, cookie):
+        self.Log.dbg('Session')
+        self.Sess = wappSession(cookie)
+
+    def Render(self, tmplData=None):
         self.Log.dbg('Render')
         tmplArgs = {
             'wappMessages': self.Msg.getAll(),
+            'wappSession': self.Sess,
+            'wappCurTime': time.strftime(_TIME_FMT, time.localtime()),
         }
+        if tmplData is None: tmplData = dict()
+        tmplArgs.update(tmplData)
         return template("% include('{}')".format(self._tmpl), **tmplArgs)
 
     def SendFile(self, filename):

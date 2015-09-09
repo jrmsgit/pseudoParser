@@ -1,0 +1,12 @@
+% include('ppweb/templates/inc/head.html')
+
+<!-- session -->
+<div id="wappSession">
+    <p>
+        <label>ID:</label> {{wappSession.ID}}<br>
+        <label>Desde:</label> {{wappSession.sinceTime()}}<br>
+        <label>Hasta:</label> {{wappSession.untilTime()}}<br>
+    </p>
+</div>
+
+% include('ppweb/templates/inc/tail.html')

@@ -22,3 +22,9 @@ def codeExec():
     if ppCode == '':
         wapp.Msg.error('no hay código para ejecutar')
     return wapp.Render()
+
+
+@wapp.get('/session/')
+def session():
+    wapp.Start(template='session.html')
+    return wapp.Render()
