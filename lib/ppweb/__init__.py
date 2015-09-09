@@ -87,7 +87,6 @@ class wappSession(object):
         self.Log.dbg('session readFile:', fname)
         fpath = os.path.join(self.dirPath, fname)
         with open(fpath, 'r') as fh:
-            fh.truncate()
             content = fh.read()
             fh.close()
             return content
@@ -164,6 +163,7 @@ class ppWebApp(Bottle):
             'wappMessages': self.Msg.getAll(),
             'wappSession': self.Sess,
             'wappCurTime': time.strftime(_TIME_FMT, time.localtime()),
+            'wappEditorSrc': '',
         }
         if tmpl is not None:
             self._setTemplate(tmpl)

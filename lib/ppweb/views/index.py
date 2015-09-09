@@ -20,12 +20,17 @@ def uploadPost():
     wapp.Start(tmpl='upload.html')
     if wapp.Req.POST.wappCmd == 'abrir':
         ppcode = wapp.Req.files.get('ppCode')
-        fname, fext = os.path.splitext(ppcode.filename)
-        wapp.Log.dbg('upload:', fname, fext)
-        if fext != '.src' and fext != '.txt':
-            wapp.Msg.error('sólo archivos .src o .txt son aceptados')
+        if ppcode is None:
+            wapp.Msg.error('ningún archivo seleccionado')
         else:
-            wapp.Msg.info('archivo abierto satisfactoriamente')
+            fname, fext = os.path.splitext(ppcode.filename)
+            wapp.Log.dbg('upload:', fname, fext)
+            if fext != '.src' and fext != '.txt':
+                wapp.Msg.error('sólo archivos .src o .txt son aceptados')
+            else:
+                wapp.Sess.writeFile('editor.src', ppcode.file.read().decode())
+                wapp.Msg.info('archivo abierto satisfactoriamente')
+                return wapp.Redirect('/')
     return wapp.Render()
 
 
@@ -45,8 +50,11 @@ def indexPost():
         return wapp.Redirect('/upload/')
 
     elif wapp.Req.POST.wappCmd == 'borrar':
-        # FIXME!!
-        return wapp.Render()
+        wapp.Sess.writeFile('editor.src', '')
+        tdata = {
+            'wappEditorSrc': '',
+        }
+        return wapp.Render(tmplData=tdata)
 
     elif ppCode == '':
         wapp.Msg.error('el archivo está vacio')
@@ -66,4 +74,12 @@ def indexPost():
 @wapp.get('/')
 def index():
     wapp.Start()
-    return wapp.Render()
+    try:
+        ppcode = wapp.Sess.readFile('editor.src')
+    except Exception as e:
+        wapp.Log.dbg('Exception:', e)
+        ppcode = ''
+    tdata = {
+        'wappEditorSrc': ppcode,
+    }
+    return wapp.Render(tmplData=tdata)
