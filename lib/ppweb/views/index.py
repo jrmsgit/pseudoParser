@@ -2,29 +2,32 @@ import sys
 from .. import wapp
 
 
-@wapp.get('/')
-def index():
-    wapp.Start()
-    return wapp.Render()
-
-
 @wapp.get('/static/<filename:path>')
-def sendFile(filename):
+def staticFile(filename):
     wapp.Start()
-    return wapp.SendFile(filename)
-
-
-@wapp.post('/exec/')
-def codeExec():
-    wapp.Start(template='exec.html')
-    ppCode = wapp.Req.forms.get('ppCode', '')
-    wapp.Log.dbg("ppCode:", ppCode)
-    if ppCode == '':
-        wapp.Msg.error('no hay código para ejecutar')
-    return wapp.Render()
+    return wapp.StaticFile(filename)
 
 
 @wapp.get('/session/')
 def session():
     wapp.Start(template='session.html')
+    return wapp.Render()
+
+
+@wapp.post('/')
+def indexPost():
+    wapp.Start()
+    ppCode = wapp.Req.forms.get('ppCode', '')
+    wapp.Log.dbg("ppCode:", ppCode)
+    if ppCode == '':
+        wapp.Msg.error('el archivo está vacio')
+    else:
+        if wapp.Req.POST.wappCmd == 'guardar':
+            return wapp.CodeSave(ppCode)
+    return wapp.Render()
+
+
+@wapp.get('/')
+def index():
+    wapp.Start()
     return wapp.Render()

@@ -36,17 +36,24 @@ a:hover {
     color: #0d0;
 }
 
-#wappNavBar {
-    border-bottom: 1px solid #666;
-    margin-bottom: 1%;
-    margin-top: -1%;
-}
-
-#wappNavBar a {
+.wappButtons a {
     padding: 0.5% 2%;
     text-decoration: none;
     color: #0d0;
     background-color: #000;
+}
+
+.wappButtons a:hover {
+    padding: 0.5% 2%;
+    text-decoration: none;
+    color: #0d0;
+    background-color: #000;
+}
+
+#wappNavBar {
+    border-bottom: 1px solid #666;
+    margin-bottom: 1%;
+    margin-top: -1%;
 }
 
 #wappMessages p {

@@ -6,6 +6,7 @@ import hashlib
 
 from bottle import Bottle, template, static_file, request, response
 
+_VERSION = 150909
 _DEBUG = True
 _CODEDIR = os.path.dirname(__file__)
 _SECRET = 'SUPERSECRETPASSPHRASE'
@@ -43,7 +44,7 @@ class wappSession(object):
     ID = None
     since = None
     until = None
-    _dirPath = None
+    dirPath = None
     Log = wappLogger()
 
     def __init__(self, cookie):
@@ -59,9 +60,9 @@ class wappSession(object):
         return time.strftime(_TIME_FMT, time.localtime(self.until))
 
     def _initFS(self):
-        self._dirPath = os.path.join(_SESS_DIR, self.ID[0], self.ID[1], self.ID)
-        os.makedirs(self._dirPath, mode=0o770, exist_ok=True)
-        self.Log.dbg('session dir:', self._dirPath)
+        self.dirPath = os.path.join(_SESS_DIR, self.ID[0], self.ID[1], self.ID)
+        os.makedirs(self.dirPath, mode=0o770, exist_ok=True)
+        self.Log.dbg('session dir:', self.dirPath)
 
 
 class ppWebApp(Bottle):
@@ -71,6 +72,7 @@ class ppWebApp(Bottle):
     Msg = None
     Resp = None
     Sess = None
+    _startTime = None
 
     def __init__(self):
         self.Log = wappLogger()
@@ -89,6 +91,7 @@ class ppWebApp(Bottle):
 
     def Start(self, template='index.html'):
         self.Log.dbg('Start')
+        self._startTime = time.time()
         self._setTemplate(template)
         cookie = self._loadCookie()
         self._loadSess(cookie)
@@ -118,17 +121,29 @@ class ppWebApp(Bottle):
     def Render(self, tmplData=None):
         self.Log.dbg('Render')
         tmplArgs = {
+            'wappVersion': _VERSION,
             'wappMessages': self.Msg.getAll(),
             'wappSession': self.Sess,
             'wappCurTime': time.strftime(_TIME_FMT, time.localtime()),
         }
         if tmplData is None: tmplData = dict()
         tmplArgs.update(tmplData)
+        tmplArgs.update({'wappTook': '%.5f' % (time.time() - self._startTime)})
         return template("% include('{}')".format(self._tmpl), **tmplArgs)
 
-    def SendFile(self, filename):
-        self.Log.dbg('SendFile')
+    def StaticFile(self, filename):
+        self.Log.dbg('StaticFile')
         return static_file(filename, root=os.path.join(_CODEDIR, 'static'))
+
+    def CodeSave(self, code):
+        self.Log.dbg('CodeSave')
+        fname = 'editor.src'
+        fpath = os.path.join(self.Sess.dirPath, fname)
+        with open(fpath, 'w') as fh:
+            fh.truncate()
+            fh.write(code)
+            fh.close()
+        return static_file(fname, root=self.Sess.dirPath, download=fname)
 
 
 # create wapp

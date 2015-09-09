@@ -1,9 +1,10 @@
 % include('ppweb/templates/inc/head.html')
 
-<!-- index -->
-<form action="/exec/" method="post">
+<!-- ppCode -->
+<form action="/" method="post">
     <textarea name="ppCode"></textarea><br>
-    <input type="submit" value="ejecutar">
+    <input type="submit" name="wappCmd" value="guardar">
+    <input type="submit" name="wappCmd" value="ejecutar">
 </form>
 
 % include('ppweb/templates/inc/tail.html')
