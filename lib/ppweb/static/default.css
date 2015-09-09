@@ -65,6 +65,11 @@ a:hover {
     font-weight: bold;
 }
 
+#wappMessages .levelINFO {
+    color: #dd0;
+    font-weight: bold;
+}
+
 #wappFooter {
     font-size: 75%;
     color: #666;

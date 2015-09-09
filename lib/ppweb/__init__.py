@@ -4,7 +4,7 @@ import time
 import os.path
 import hashlib
 
-from bottle import Bottle, template, static_file, request, response
+from bottle import Bottle, template, static_file, request, response, redirect
 
 _VERSION = 150909
 _DEBUG = True
@@ -31,6 +31,9 @@ class wappMessages(object):
 
     def error(self, msg):
         self._msgs[time.time()] = ('ERROR', msg)
+
+    def info(self, msg):
+        self._msgs[time.time()] = ('INFO', msg)
 
     def getAll(self):
         m = list()
@@ -89,10 +92,10 @@ class ppWebApp(Bottle):
         self.Log.dbg('Run')
         return super(ppWebApp, self).run(host='jrmsdev.local', debug=_DEBUG)
 
-    def Start(self, template='index.html'):
-        self.Log.dbg('Start')
+    def Start(self, tmpl='index.html'):
+        self.Log.dbg('Start:', self.Req)
         self._startTime = time.time()
-        self._setTemplate(template)
+        self._setTemplate(tmpl)
         cookie = self._loadCookie()
         self._loadSess(cookie)
 
@@ -118,7 +121,7 @@ class ppWebApp(Bottle):
         self.Log.dbg('Session:', cookie['sess'])
         self.Sess = wappSession(cookie)
 
-    def Render(self, tmplData=None):
+    def Render(self, tmplData=None, tmpl=None):
         self.Log.dbg('Render')
         tmplArgs = {
             'wappVersion': _VERSION,
@@ -126,7 +129,10 @@ class ppWebApp(Bottle):
             'wappSession': self.Sess,
             'wappCurTime': time.strftime(_TIME_FMT, time.localtime()),
         }
-        if tmplData is None: tmplData = dict()
+        if tmpl is not None:
+            self._setTemplate(tmpl)
+        if tmplData is None:
+            tmplData = dict()
         tmplArgs.update(tmplData)
         tmplArgs.update({'wappTook': '%.5f' % (time.time() - self._startTime)})
         return template("% include('{}')".format(self._tmpl), **tmplArgs)
@@ -144,6 +150,10 @@ class ppWebApp(Bottle):
             fh.write(code)
             fh.close()
         return static_file(fname, root=self.Sess.dirPath, download=fname)
+
+    def Redirect(self, location):
+        self.Log.dbg('Redirect')
+        return redirect(location)
 
 
 # create wapp
