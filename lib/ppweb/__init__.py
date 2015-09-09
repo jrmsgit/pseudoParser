@@ -1,10 +1,13 @@
 import sys
 import time
 import os.path
+import hashlib
+
 from bottle import Bottle, template, static_file, request, response
 
 _DEBUG = True
 _CODEDIR = os.path.dirname(__file__)
+_SECRET = 'SUPERSECRETPASSPHRASE'
 
 
 class wappLogger(object):
@@ -56,16 +59,16 @@ class ppWebApp(Bottle):
 
     def Start(self, template='index.html'):
         self.Log.dbg('Start')
-
-        # template
         self._setTemplate(template)
+        self._loadCookie()
 
-        # ppweb cookie
-        self.Log.dbg('cookies:', self.Req.cookies.keys())
-        cookie = self.Req.get_cookie('ppweb')
-        self.Log.dbg('ppweb cookie:', cookie)
-        if not cookie:
-            self.Resp.set_cookie('ppweb', 'LALALA')
+    def _loadCookie(self):
+        cn = hashlib.md5(str(_SECRET+'ppweb').encode()).hexdigest()
+        self.Log.dbg('cookie name:', cn)
+        c = self.Req.get_cookie(cn, secret=_SECRET)
+        self.Log.dbg('cookie:', c)
+        if not c:
+            self.Resp.set_cookie(cn, time.time(), secret=_SECRET)
 
     def Render(self):
         self.Log.dbg('Render')
