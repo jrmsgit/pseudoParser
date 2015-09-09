@@ -5,8 +5,21 @@
     <title>pseudoParser</title>
 </head>
 <body>
-<div>
+
+<!-- navbar -->
+<div id="wappNavBar">
     <p>
-        <a href="/">home</a>
+        <a href="/">editor</a>
     </p>
+</div>
+
+<!-- messages -->
+<div id="wappMessages">
+% if wappMessages:
+    <p>
+    % for msg in wappMessages:
+        <span class="level{{msg[0]}}">*{{msg[0]}}</span> {{msg[1]}}<br>
+    % end
+    </p>
+% end
 </div>
