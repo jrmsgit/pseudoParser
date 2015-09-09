@@ -1,3 +1,4 @@
+import os
 import sys
 import time
 import os.path
@@ -10,6 +11,7 @@ _CODEDIR = os.path.dirname(__file__)
 _SECRET = 'SUPERSECRETPASSPHRASE'
 _COOKIE_TTL = 3600 * 24 * 7
 _TIME_FMT = '%d %b %Y %H:%M:%S %Z'
+_SESS_DIR = '/var/tmp/ppwebSessions'
 
 
 class wappLogger(object):
@@ -41,6 +43,8 @@ class wappSession(object):
     ID = None
     since = None
     until = None
+    _dirPath = None
+    Log = wappLogger()
 
     def __init__(self, cookie):
         self.ID = cookie['sess']
@@ -55,8 +59,9 @@ class wappSession(object):
         return time.strftime(_TIME_FMT, time.localtime(self.until))
 
     def _initFS(self):
-        # FIXME!!
-        pass
+        self._dirPath = os.path.join(_SESS_DIR, self.ID[0], self.ID[1], self.ID)
+        os.makedirs(self._dirPath, mode=0o770, exist_ok=True)
+        self.Log.dbg('session dir:', self._dirPath)
 
 
 class ppWebApp(Bottle):
@@ -107,7 +112,7 @@ class ppWebApp(Bottle):
             return cd
 
     def _loadSess(self, cookie):
-        self.Log.dbg('Session')
+        self.Log.dbg('Session:', cookie['sess'])
         self.Sess = wappSession(cookie)
 
     def Render(self, tmplData=None):
