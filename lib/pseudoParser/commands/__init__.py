@@ -1,12 +1,13 @@
 import sys
 from . import colas, pilas
 from ..logger import ppLogger
+from .. import runtime
 
 logger = ppLogger(__name__)
 
 def _println(args):
     logger.dbg('cmd println:', args)
-    print(*args)
+    print(*args, file=runtime.output)
 
 def _input(args):
     logger.dbg('cmd input')

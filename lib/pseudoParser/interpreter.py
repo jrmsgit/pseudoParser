@@ -1,4 +1,4 @@
-from . import vartypes, commands, compiler
+from . import vartypes, commands, compiler, runtime
 from .logger import ppLogger
 
 logger = ppLogger(__name__)
@@ -8,8 +8,10 @@ statements = None
 def runprog(program):
     global curstat, statements
     statements = dict()
+
     vartypes.progStart()
     compiler.progStart()
+    runtime.progStart()
 
     def cmdStat(stat):
         logger.dbg('cmdStat:', stat)
@@ -134,6 +136,7 @@ def runprog(program):
 if __name__ == '__main__':
     import sys
     from .compiler import parser
+    from . import runtime
 
     code = None
     try:
@@ -146,3 +149,7 @@ if __name__ == '__main__':
     program = parser.parse(code)
     runprog(program)
     print(statements)
+
+    runtime.output.seek(0, 0)
+    for l in runtime.output.readlines():
+        print(l, end='')
