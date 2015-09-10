@@ -15,7 +15,7 @@ def _input(args):
 
 _cmdmap = {
     'mostrar': _println,
-    'ingresar': _input,
+    'ingresar': runtime.inputCmd or _input,
 }
 _cmdmap.update(colas.cmdmap)
 _cmdmap.update(pilas.cmdmap)

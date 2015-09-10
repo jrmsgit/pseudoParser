@@ -149,7 +149,4 @@ if __name__ == '__main__':
     program = parser.parse(code)
     runprog(program)
     print(statements)
-
-    runtime.output.seek(0, 0)
-    for l in runtime.output.readlines():
-        print(l, end='')
+    runtime.printOutput()

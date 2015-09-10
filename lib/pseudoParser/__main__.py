@@ -3,6 +3,7 @@
 
 import sys
 
+from . import runtime
 from .compiler import parser
 from .interpreter import runprog
 
@@ -16,3 +17,4 @@ except IndexError:
 
 program = parser.parse(code)
 runprog(program)
+runtime.printOutput()
