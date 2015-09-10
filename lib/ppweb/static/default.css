@@ -17,10 +17,10 @@ textarea {
     min-width: 70%;
     color: #0d0;
     background-color: #000;
+    margin-top: 1%;
 }
 
 input {
-    margin: 1% 0;
     padding: 1%;
     color: #0d0;
     background-color: #000;
@@ -52,8 +52,8 @@ a:hover {
 
 #wappNavBar {
     border-bottom: 1px solid #666;
-    margin-bottom: 1%;
     margin-top: -1%;
+    margin-bottom: 1%;
 }
 
 #wappMessages p {
@@ -71,6 +71,7 @@ a:hover {
 }
 
 #wappFooter {
+    margin-top: 1%;
     font-size: 75%;
     color: #666;
     border-top: 1px solid #666;

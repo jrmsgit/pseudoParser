@@ -164,12 +164,14 @@ class ppWebApp(Bottle):
             'wappSession': self.Sess,
             'wappCurTime': time.strftime(_TIME_FMT, time.localtime()),
             'wappEditorSrc': '',
+            'wappExecOutput': None,
         }
         if tmpl is not None:
             self._setTemplate(tmpl)
         if tmplData is None:
             tmplData = dict()
         tmplArgs.update(tmplData)
+        self.Log.dbg('tmplArgs:', tmplArgs)
         tmplArgs.update({'wappTook': '%.5f' % (time.time() - self._startTime)})
         return template("% include('{}')".format(self._tmpl), **tmplArgs)
 
@@ -181,7 +183,7 @@ class ppWebApp(Bottle):
         self.Log.dbg('CodeSave')
         fname = 'editor.src'
         self.Sess.writeFile(fname, code)
-        return static_file(fname, root=self.Sess.dirPath, download=fname)
+        return static_file(fname, root=self.Sess.dirPath, download='ppweb.src')
 
     def Redirect(self, location):
         self.Log.dbg('Redirect')
@@ -193,3 +195,4 @@ wapp = ppWebApp()
 
 # load views / routes
 from .views.index import *
+from .views.program import *

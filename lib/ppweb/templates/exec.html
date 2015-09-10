@@ -1,2 +1,20 @@
 % include('ppweb/templates/inc/head.html')
+
+<p>
+    <form action="/exec/" method="post">
+        <input type="submit" name="wappCmd" value="cargar entrada">
+        <input type="submit" name="wappCmd" value="compilar">
+        <input type="submit" name="wappCmd" value="ejecutar">
+    </form>
+</p>
+
+% if wappExecOutput:
+<hr>
+<p>
+    % for line in wappExecOutput:
+        {{line}}<br>
+    % end
+</p>
+%end
+
 % include('ppweb/templates/inc/tail.html')

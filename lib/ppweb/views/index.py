@@ -63,11 +63,8 @@ def indexPost():
     else:
         if wapp.Req.POST.wappCmd == 'guardar':
             return wapp.CodeSave(ppCode)
-
-        elif wapp.Req.POST.wappCmd == 'ejecutar':
-            return wapp.Render(tmpl='exec.html')
-
         else:
+            # FIXME: should return an error (400?) here
             return wapp.Render()
 
 
